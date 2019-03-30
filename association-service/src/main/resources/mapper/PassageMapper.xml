@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feng.dao.PassageMapper">
+
+    <!-- 开启二级缓存 -->
+    <!--<cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>-->
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.feng.entity.Passage">
+        <id column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="content" property="content"/>
+        <result column="publisher" property="publisher"/>
+        <result column="source" property="source"/>
+        <result column="passage_type" property="passageType"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, title, content, publisher, source, passage_type
+    </sql>
+
+
+    <select id="getByTypeID" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"></include> , pt.type FROM passage p
+        INNER JOIN passage_type pt ON p.passage_type = pt.id
+    </select>
+</mapper>

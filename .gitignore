@@ -1,0 +1,19 @@
+*.class
+target/
+out/
+
+# Eclipse project files
+.classpath
+.project
+.settings
+
+# IDEA metadata and output dirs
+*.iml
+*.ipr
+*.iws
+*.class
+.idea/
+
+# gitbook
+_book
+tmp
