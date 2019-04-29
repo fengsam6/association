@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>点击链接激活邮箱</title>
+</head>
+<body>
+<p><span th:text="${email}"></span>,您好,感谢注册，这是一封验证邮件，请点击下面链接完成注册</p>
+<a href="#" th:href="@{/club/users/activeAccount(eamil=${email},id=${id})}">激活账号</a>
+</body>
+</html>

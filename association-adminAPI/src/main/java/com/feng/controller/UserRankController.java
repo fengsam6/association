@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2019-03-03
  */
 @RestController
-@RequestMapping("/admin/userRank")
+@RequestMapping("/userRank")
 public class UserRankController {
 
 }

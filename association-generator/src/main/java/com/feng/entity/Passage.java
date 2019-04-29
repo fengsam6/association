@@ -1,6 +1,7 @@
 package com.feng.entity;
 
 import com.baomidou.mybatisplus.enums.IdType;
+import java.util.Date;
 import com.baomidou.mybatisplus.annotations.TableId;
 import java.io.Serializable;
 
@@ -10,7 +11,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author rf
- * @since 2019-03-11
+ * @since 2019-04-27
  */
 public class Passage implements Serializable {
 
@@ -40,7 +41,17 @@ public class Passage implements Serializable {
     /**
      * 文章类型
      */
-    private Integer passageType;
+    private Integer passageTypeId;
+    /**
+     * 发布文章的社团id
+     */
+    private Integer clubId;
+    private Date publishTime;
+    /**
+     * 点击次数
+     */
+    private Integer clickNum;
+    private Integer fileId;
 
 
     public Integer getId() {
@@ -83,12 +94,44 @@ public class Passage implements Serializable {
         this.source = source;
     }
 
-    public Integer getPassageType() {
-        return passageType;
+    public Integer getPassageTypeId() {
+        return passageTypeId;
     }
 
-    public void setPassageType(Integer passageType) {
-        this.passageType = passageType;
+    public void setPassageTypeId(Integer passageTypeId) {
+        this.passageTypeId = passageTypeId;
+    }
+
+    public Integer getClubId() {
+        return clubId;
+    }
+
+    public void setClubId(Integer clubId) {
+        this.clubId = clubId;
+    }
+
+    public Date getPublishTime() {
+        return publishTime;
+    }
+
+    public void setPublishTime(Date publishTime) {
+        this.publishTime = publishTime;
+    }
+
+    public Integer getClickNum() {
+        return clickNum;
+    }
+
+    public void setClickNum(Integer clickNum) {
+        this.clickNum = clickNum;
+    }
+
+    public Integer getFileId() {
+        return fileId;
+    }
+
+    public void setFileId(Integer fileId) {
+        this.fileId = fileId;
     }
 
     @Override
@@ -99,7 +142,11 @@ public class Passage implements Serializable {
         ", content=" + content +
         ", publisher=" + publisher +
         ", source=" + source +
-        ", passageType=" + passageType +
+        ", passageTypeId=" + passageTypeId +
+        ", clubId=" + clubId +
+        ", publishTime=" + publishTime +
+        ", clickNum=" + clickNum +
+        ", fileId=" + fileId +
         "}";
     }
 }

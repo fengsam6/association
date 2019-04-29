@@ -2,7 +2,12 @@ package com.feng.entity;
 
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.enums.IdType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -14,6 +19,7 @@ import java.util.Date;
  * @author rf
  * @since 2019-03-03
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -27,12 +33,17 @@ public class User implements Serializable {
     /**
      * 性别（0保密，1男，2女）
      */
-    private Boolean sex;
+   private Integer sex;
     /**
      * 学院
      */
     private String institute;
+    @NotNull(message = "用户账号不能为空")
+    @Email(message = "请输入合法邮箱")
     private String account;
+//    @JsonIgnore
+    @NotNull(message = "用户密码不能为空")
+    @Length(min=6,max=16,message = "密码至少6位，最多16位")
     private String password;
     /**
      * 用户创建时间
@@ -61,11 +72,11 @@ public class User implements Serializable {
         this.name = name;
     }
 
-    public Boolean getSex() {
+    public Integer getSex() {
         return sex;
     }
 
-    public void setSex(Boolean sex) {
+    public void setSex(Integer sex) {
         this.sex = sex;
     }
 

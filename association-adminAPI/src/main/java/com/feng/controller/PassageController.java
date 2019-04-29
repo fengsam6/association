@@ -3,17 +3,16 @@ package com.feng.controller;
 
 import com.feng.entity.Passage;
 import com.feng.entity.ResponseResult;
-import com.feng.enums.ExceptionEnum;
+import com.feng.enums.ErroEnum;
 import com.feng.exception.ParamInvalidException;
 import com.feng.service.PassageService;
 import com.feng.util.ResponseResultUtil;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 /**
  * <p>
@@ -25,7 +24,7 @@ import java.util.List;
  */
 @RestController
 @CrossOrigin
-@RequestMapping("/admin/passages")
+@RequestMapping("/passages")
 public class PassageController {
     @Autowired
     private PassageService passageService;
@@ -37,8 +36,8 @@ public class PassageController {
     }
 
     @GetMapping
-    public ResponseResult list(@RequestParam(defaultValue = "1") int pageNum, @RequestParam(defaultValue = "10") int pageSize, Passage search) {
-        List<Passage> passageList = passageService.getPage(pageNum, pageSize, search);
+    public ResponseResult list(@RequestParam(defaultValue = "1") int pageNum, @RequestParam(defaultValue = "8") int pageSize, Passage search) {
+       PageInfo<Passage> passageList = passageService.getPage(pageNum, pageSize, search);
         return ResponseResultUtil.renderSuccess(passageList);
     }
 
@@ -52,7 +51,7 @@ public class PassageController {
     public ResponseResult add(@Valid @RequestBody Passage passage, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             String msg = bindingResult.getFieldError().getDefaultMessage();
-            throw new ParamInvalidException(ExceptionEnum.INVALIDATE_EXCEPTION.setMsg(msg));
+            throw new ParamInvalidException(ErroEnum.INVALIDATE_PARAM_EXCEPTION.setMsg(msg));
         }
         passageService.add(passage);
         return ResponseResultUtil.renderSuccess("添加文章成功");
@@ -62,7 +61,7 @@ public class PassageController {
     public ResponseResult update(@RequestBody @Valid Passage passage, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             String msg = bindingResult.getFieldError().getDefaultMessage();
-            throw new ParamInvalidException(ExceptionEnum.INVALIDATE_EXCEPTION.setMsg(msg));
+            throw new ParamInvalidException(ErroEnum.INVALIDATE_PARAM_EXCEPTION.setMsg(msg));
         }
         passageService.updateWithId(passage);
         return ResponseResultUtil.renderSuccess("更新文章成功");

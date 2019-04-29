@@ -1,6 +1,6 @@
 package com.feng.exception;
 
-import com.feng.enums.ExceptionEnum;
+import com.feng.enums.ErroEnum;
 import com.feng.error.CommonError;
 
 /**
@@ -10,9 +10,9 @@ public class ParamInvalidException extends RuntimeException implements CommonErr
     private String msg;
     private int code;
 
-    public ParamInvalidException(ExceptionEnum exceptionEnum) {
-        this.code = exceptionEnum.getCode();
-        this.msg= exceptionEnum.getMsg();
+    public ParamInvalidException(ErroEnum erroEnum) {
+        this.code = erroEnum.getCode();
+        this.msg= erroEnum.getMsg();
     }
 
     @Override

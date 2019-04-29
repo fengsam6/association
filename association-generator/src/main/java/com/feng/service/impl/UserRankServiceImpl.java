@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
  * </p>
  *
  * @author rf
- * @since 2019-03-11
+ * @since 2019-04-17
  */
 @Service
 public class UserRankServiceImpl extends ServiceImpl<UserRankMapper, UserRank> implements UserRankService {

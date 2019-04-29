@@ -7,17 +7,21 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.feng.entity.Passage">
-        <id column="id" property="id"/>
-        <result column="title" property="title"/>
-        <result column="content" property="content"/>
-        <result column="publisher" property="publisher"/>
-        <result column="source" property="source"/>
-        <result column="passage_type" property="passageType"/>
+        <id column="id" property="id" />
+        <result column="title" property="title" />
+        <result column="content" property="content" />
+        <result column="publisher" property="publisher" />
+        <result column="source" property="source" />
+        <result column="passage_type_id" property="passageTypeId" />
+        <result column="club_id" property="clubId" />
+        <result column="publish_time" property="publishTime" />
+        <result column="click_num" property="clickNum" />
+        <result column="file_id" property="fileId" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, title, content, publisher, source, passage_type
+        id, title, content, publisher, source, passage_type_id, club_id, publish_time, click_num, file_id
     </sql>
 
 

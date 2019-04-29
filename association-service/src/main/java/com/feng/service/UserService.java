@@ -2,6 +2,7 @@ package com.feng.service;
 
 import com.baomidou.mybatisplus.service.IService;
 import com.feng.entity.User;
+import com.github.pagehelper.PageInfo;
 
 import java.io.Serializable;
 import java.util.List;
@@ -15,9 +16,11 @@ import java.util.List;
  * @since 2019-03-03
  */
 public interface UserService{
-    List<User> getUserPage(int size,int num);
+    PageInfo<User> getUserPage(int num, int size,User search);
 
     User login(User user);
+
+    List<User> getByAccount(String account);
 
     User add(User user);
 

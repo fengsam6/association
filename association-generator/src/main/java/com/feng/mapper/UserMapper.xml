@@ -9,10 +9,12 @@
     <resultMap id="BaseResultMap" type="com.feng.entity.User">
         <id column="id" property="id" />
         <result column="name" property="name" />
+        <result column="call_name" property="callName" />
         <result column="sex" property="sex" />
         <result column="institute" property="institute" />
         <result column="account" property="account" />
         <result column="password" property="password" />
+        <result column="role_id" property="roleId" />
         <result column="create_time" property="createTime" />
         <result column="is_active" property="isActive" />
         <result column="last_login_time" property="lastLoginTime" />
@@ -20,7 +22,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, name, sex, institute, account, password, create_time, is_active, last_login_time
+        id, name, call_name, sex, institute, account, password, role_id, create_time, is_active, last_login_time
     </sql>
 
 </mapper>

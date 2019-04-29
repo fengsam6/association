@@ -1,6 +1,6 @@
 package com.feng.exception;
 
-import com.feng.enums.ExceptionEnum;
+import com.feng.enums.ErroEnum;
 import com.feng.error.CommonError;
 
 /**
@@ -14,8 +14,8 @@ public class BusinessException extends RuntimeException implements CommonError {
         this.code = code;
         this.msg = msg;
     }
-    public BusinessException(ExceptionEnum exceptionEnum) {
-       this(exceptionEnum.getCode(),exceptionEnum.getMsg());
+    public BusinessException(ErroEnum erroEnum) {
+       this(erroEnum.getCode(), erroEnum.getMsg());
     }
     @Override
     public int getCode() {

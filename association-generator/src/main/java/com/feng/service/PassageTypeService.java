@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.service.IService;
  * </p>
  *
  * @author rf
- * @since 2019-03-11
+ * @since 2019-04-27
  */
 public interface PassageTypeService extends IService<PassageType> {
 

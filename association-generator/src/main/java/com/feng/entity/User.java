@@ -11,7 +11,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author rf
- * @since 2019-03-11
+ * @since 2019-04-27
  */
 public class User implements Serializable {
 
@@ -24,15 +24,20 @@ public class User implements Serializable {
     private Integer id;
     private String name;
     /**
+     * 用户职称
+     */
+    private String callName;
+    /**
      * 性别（0保密，1男，2女）
      */
-    private Boolean sex;
+    private Integer sex;
     /**
      * 学院
      */
     private String institute;
     private String account;
     private String password;
+    private Integer roleId;
     /**
      * 用户创建时间
      */
@@ -40,7 +45,7 @@ public class User implements Serializable {
     /**
      * 用户是否激活（默认0，未激活；1激活）
      */
-    private Boolean isActive;
+    private Integer isActive;
     private String lastLoginTime;
 
 
@@ -60,11 +65,19 @@ public class User implements Serializable {
         this.name = name;
     }
 
-    public Boolean getSex() {
+    public String getCallName() {
+        return callName;
+    }
+
+    public void setCallName(String callName) {
+        this.callName = callName;
+    }
+
+    public Integer getSex() {
         return sex;
     }
 
-    public void setSex(Boolean sex) {
+    public void setSex(Integer sex) {
         this.sex = sex;
     }
 
@@ -92,6 +105,14 @@ public class User implements Serializable {
         this.password = password;
     }
 
+    public Integer getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
+    }
+
     public Date getCreateTime() {
         return createTime;
     }
@@ -100,11 +121,11 @@ public class User implements Serializable {
         this.createTime = createTime;
     }
 
-    public Boolean getActive() {
+    public Integer getIsActive() {
         return isActive;
     }
 
-    public void setActive(Boolean isActive) {
+    public void setIsActive(Integer isActive) {
         this.isActive = isActive;
     }
 
@@ -121,10 +142,12 @@ public class User implements Serializable {
         return "User{" +
         "id=" + id +
         ", name=" + name +
+        ", callName=" + callName +
         ", sex=" + sex +
         ", institute=" + institute +
         ", account=" + account +
         ", password=" + password +
+        ", roleId=" + roleId +
         ", createTime=" + createTime +
         ", isActive=" + isActive +
         ", lastLoginTime=" + lastLoginTime +

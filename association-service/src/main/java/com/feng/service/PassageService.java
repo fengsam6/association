@@ -1,10 +1,11 @@
 package com.feng.service;
 
-import com.baomidou.mybatisplus.service.IService;
 import com.feng.entity.Passage;
+import com.feng.vo.PassagePageVo;
+import com.feng.vo.PassageVo;
+import com.github.pagehelper.PageInfo;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * <p>
@@ -15,10 +16,10 @@ import java.util.List;
  * @since 2019-03-03
  */
 public interface PassageService  {
-    List<Passage> getTopByType(int type, int num);
+    PassageVo getTopN(int n, Passage search);
 
-    List<Passage> getPage(int pageNum, int pageSize, Passage search);
-
+    PageInfo<Passage> getPage(int pageNum, int pageSize, Passage search);
+    PassagePageVo getPageWithTypeList(int pageNum, int pageSize, Integer passageTypeId);
     Passage getById(Serializable id);
 
     Passage add(Passage passage);

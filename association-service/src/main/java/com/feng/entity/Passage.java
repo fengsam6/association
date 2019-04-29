@@ -2,15 +2,18 @@ package com.feng.entity;
 
 import com.baomidou.mybatisplus.enums.IdType;
 import com.baomidou.mybatisplus.annotations.TableId;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * <p>
- *
+ * <p>
  * </p>
  *
  * @author rf
@@ -40,17 +43,29 @@ public class Passage implements Serializable {
     /**
      * 文章发布者
      */
-    @NotNull(message = "文章发布者不能为空")
+//    @NotNull(message = "文章发布者不能为空")
     private String publisher;
     /**
      * 文章来源
      */
-    @NotNull(message = "文章来源不能为空")
+//    @NotNull(message = "文章来源不能为空")
     private String source;
     /**
      * 文章类型
      */
     @NotNull(message = "文章类型不能为空")
-    private Integer passageType;
+    private Integer passageTypeId;
+
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date publishTime;
+    /**
+     * 点击次数
+     */
+    private Integer clickNum;
+
+    private Integer fileId;
+    private Integer clubId;
+
 
 }

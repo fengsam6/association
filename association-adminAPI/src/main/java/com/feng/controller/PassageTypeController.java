@@ -1,8 +1,17 @@
 package com.feng.controller;
 
 
+import com.feng.entity.PassageType;
+import com.feng.entity.ResponseResult;
+import com.feng.service.PassageTypeService;
+import com.feng.util.ResponseResultUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * <p>
@@ -12,9 +21,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @author rf
  * @since 2019-03-03
  */
-@Controller
-@RequestMapping("/admin/passageType")
+@RequestMapping("/passageTypes")
+@RestController
 public class PassageTypeController {
-
+    @Autowired
+    private PassageTypeService passageTypeService;
+    @GetMapping
+    public ResponseResult list() {
+        List<PassageType> passageTypeList= passageTypeService.selectList(null);
+        return ResponseResultUtil.renderSuccess(passageTypeList);
+    }
 }
 
