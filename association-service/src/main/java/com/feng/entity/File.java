@@ -1,17 +1,17 @@
 package com.feng.entity;
 
-import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.enums.IdType;
-
+import java.util.Date;
+import com.baomidou.mybatisplus.annotations.TableId;
 import java.io.Serializable;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author rf
- * @since 2019-04-27
+ * @since 2019-05-05
  */
 public class File implements Serializable {
 
@@ -27,6 +27,7 @@ public class File implements Serializable {
      * 文件路径
      */
     private String filePath;
+    private Date createTime;
     private Integer fileTypeId;
 
 
@@ -54,6 +55,14 @@ public class File implements Serializable {
         this.filePath = filePath;
     }
 
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
     public Integer getFileTypeId() {
         return fileTypeId;
     }
@@ -65,17 +74,18 @@ public class File implements Serializable {
     @Override
     public String toString() {
         return "File{" +
-        "id=" + id +
-        ", fileName=" + fileName +
-        ", filePath=" + filePath +
-        ", fileTypeId=" + fileTypeId +
-        "}";
+                "id=" + id +
+                ", fileName=" + fileName +
+                ", filePath=" + filePath +
+                ", createTime=" + createTime +
+                ", fileTypeId=" + fileTypeId +
+                "}";
     }
 
     public File() {
     }
 
-    public File( String fileName, String filePath, Integer fileTypeId) {
+    public File(String fileName, String filePath, Integer fileTypeId) {
         this.fileName = fileName;
         this.filePath = filePath;
         this.fileTypeId = fileTypeId;

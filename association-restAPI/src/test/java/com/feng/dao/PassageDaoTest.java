@@ -2,6 +2,7 @@ package com.feng.dao;
 
 import com.feng.entity.Passage;
 import com.feng.service.PassageService;
+import com.feng.vo.PassageInfoVo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mybatis.spring.annotation.MapperScan;
@@ -21,7 +22,7 @@ public class PassageDaoTest {
 
     @Test
     public void get() {
-     Passage passage = passageService.getById(1);
+     PassageInfoVo passage = passageService.getInfoById(46);
      System.out.println(passage.toString());
     }
 }

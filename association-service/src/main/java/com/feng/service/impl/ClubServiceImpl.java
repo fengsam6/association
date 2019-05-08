@@ -12,6 +12,7 @@ import com.feng.entity.PassageType;
 import com.feng.enums.ErroEnum;
 import com.feng.exception.BusinessException;
 import com.feng.service.ClubService;
+import com.feng.vo.ClubInfoVo;
 import com.feng.vo.ClubPageVo;
 import com.feng.vo.ClubVo;
 import com.feng.vo.PassagePageVo;
@@ -56,16 +57,9 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club> implements Cl
     }
 
     @Override
-    public PageInfo<Club> getPage(int pageNum, int pageSize, Club search) {
-        Wrapper<Club> clubWrapper = new EntityWrapper<>();
-        if (search.getClubTypeId() != null) {
-            clubWrapper.eq("club_type_id", search.getClubTypeId());
-        }
-        if (StringUtils.hasLength(search.getName())) {
-            clubWrapper.like("name", search.getName().trim());
-        }
+    public PageInfo<ClubInfoVo> getPage(int pageNum, int pageSize, Club search) {
         PageHelper.startPage(pageNum, pageSize);
-        List<Club> clubList = clubMapper.selectList(clubWrapper);
+        List<ClubInfoVo> clubList = clubMapper.findClub(search);
         return new PageInfo<>(clubList);
     }
 
@@ -84,8 +78,8 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club> implements Cl
 
     @Override
     @Cacheable(value = "club")
-    public Club getById(Serializable id) {
-        Club club = clubMapper.selectById(id);
+    public Club getById(Serializable num) {
+        Club club = clubMapper.selectById(num);
         if (club == null) {
             throw new BusinessException(ErroEnum.BUSINESS_EXCEPTION.setMsg("社团不存在"));
         }
@@ -100,15 +94,15 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club> implements Cl
     }
 
     @Override
-    @CacheEvict(value = "club", key = "#id")
-    public boolean deleteById(Serializable id) {
-        Assert.notNull(id, "社团id不能为空");
-        clubMapper.deleteById(id);
+    @CacheEvict(value = "club", key = "#num")
+    public boolean deleteById(Serializable num) {
+        Assert.notNull(num, "社团id不能为空");
+        clubMapper.deleteById(num);
         return true;
     }
 
     @Override
-    @CachePut(value = "club", key = "#club.id")
+    @CachePut(value = "club", key = "#club.num")
     public Club updateWithId(Club club) {
         clubMapper.updateById(club);
         return club;

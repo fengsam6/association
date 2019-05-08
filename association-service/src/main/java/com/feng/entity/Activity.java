@@ -1,7 +1,9 @@
 package com.feng.entity;
 
 import com.baomidou.mybatisplus.enums.IdType;
+
 import java.util.Date;
+
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -11,7 +13,7 @@ import java.io.Serializable;
 
 /**
  * <p>
- *
+ * <p>
  * </p>
  *
  * @author rf
@@ -39,14 +41,16 @@ public class Activity implements Serializable {
     /**
      * 活动举行时间
      */
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy年MM月dd")
+    @DateTimeFormat(pattern = "yyyy年MM月dd")
     private String holdTime;
     /**
      * 活动介绍
      */
     @NotNull(message = "活动简介不能为空")
     private String introduce;
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy年MM月dd")
+    @DateTimeFormat(pattern = "yyyy年MM月dd")
     private Date applyTime;
     /**
      * 社团联是否批准

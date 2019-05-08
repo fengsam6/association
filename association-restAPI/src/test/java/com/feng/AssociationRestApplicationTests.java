@@ -15,7 +15,7 @@ public class AssociationRestApplicationTests {
 
 	@Test
 	public void get() {
-		passageService.getById(1);
+		passageService.getInfoById(1);
 
 	}
 	@Test

@@ -1,23 +1,24 @@
 package com.feng.util;
 
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.util.concurrent.TimeUnit;
 
 /**
  * Created by rf on 2019/4/23.
  */
-@Data
+
+@Component
 public class RedisOption {
-    private String userSessionPrefix="userSession:";
-    @Autowired
+
+    @Resource
     private  RedisTemplate<String, Object> redisTemplate;
-    public boolean set(String key, Object value) {
+    public boolean set(String key, Object value,long time) {
         try {
-            redisTemplate.opsForValue().set(key, value);
+            redisTemplate.opsForValue().set(key, value,time, TimeUnit.SECONDS);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -25,7 +26,9 @@ public class RedisOption {
         }
 
     }
-
+    public boolean set(String key, Object value) {
+       return set(key, value,60*40);
+    }
     public boolean expire(String key, long time) {
         try {
             if (time > 0) {
@@ -37,6 +40,23 @@ public class RedisOption {
             return false;
         }
     }
+
+    public boolean hasKey(String key) {
+
+        try {
+
+            return redisTemplate.hasKey(key);
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+            return false;
+
+        }
+
+    }
+
     public Object get(String key) {
         return key == null ? null : redisTemplate.opsForValue().get(key);
     }

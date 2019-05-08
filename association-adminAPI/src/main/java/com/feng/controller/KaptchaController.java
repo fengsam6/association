@@ -1,9 +1,13 @@
 package com.feng.controller;
 
+import com.feng.util.RedisOption;
+import com.google.code.kaptcha.Constants;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.imageio.ImageIO;
@@ -17,6 +21,7 @@ import java.io.ByteArrayOutputStream;
  * Created by rf on 2019/4/14.
  */
 @Controller
+@CrossOrigin(allowCredentials = "true")
 @RequestMapping("/users")
 @Slf4j
 public class KaptchaController {
@@ -25,6 +30,8 @@ public class KaptchaController {
      */
     @Autowired
     DefaultKaptcha defaultKaptcha;
+    @Autowired
+    private RedisOption redisOption;
 
     /**
      * 2、生成验证码
@@ -32,7 +39,7 @@ public class KaptchaController {
      * @param httpServletResponse
      * @throws Exception
      */
-    @RequestMapping("/getKaptcha")
+    @GetMapping("/getKaptcha")
     public void defaultKaptcha(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse)
             throws Exception {
         byte[] captchaChallengeAsJpeg = null;
@@ -40,11 +47,13 @@ public class KaptchaController {
         try {
             // 生产验证码字符串并保存到session中
             String createText = defaultKaptcha.createText();
-            log.info("{}",createText);
-            httpServletRequest.getSession().setAttribute("rightCode", createText);
+
             // 使用生产的验证码字符串返回一个BufferedImage对象并转为byte写入到byte数组中
             BufferedImage challenge = defaultKaptcha.createImage(createText);
             ImageIO.write(challenge, "jpg", jpegOutputStream);
+            log.info("{}",createText);
+//            httpServletRequest.getSession().setAttribute(Constants.KAPTCHA_SESSION_KEY, createText);
+            redisOption.set(Constants.KAPTCHA_SESSION_KEY, createText,60*5);
         } catch (IllegalArgumentException e) {
             httpServletResponse.sendError(HttpServletResponse.SC_NOT_FOUND);
             return;

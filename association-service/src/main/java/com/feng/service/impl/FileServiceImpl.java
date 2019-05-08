@@ -32,10 +32,11 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
     }
     public PageInfo<File> getPage(int pageNum, int pageSize, File search) {
         Wrapper<File> fileWrapper = new EntityWrapper<>();
+        fileWrapper.eq("file_type_id",3);
 //        if (search != null && search.getFileTypeId() != null) {
 //            fileWrapper.eq("file_type_id", search.getFileTypeId());
 //        }
-//        fileWrapper.orderBy("publish_time",false);
+        fileWrapper.orderBy("create_time",false);
         PageHelper.startPage(pageNum, pageSize);
         List<File> fileList = fileMapper.selectList(fileWrapper);
         return new PageInfo<>(fileList);

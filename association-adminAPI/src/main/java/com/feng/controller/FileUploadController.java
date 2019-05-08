@@ -23,24 +23,27 @@ import java.io.IOException;
 @RestController
 @RequestMapping("/files")
 @Slf4j
-public class UploadController {
+public class FileUploadController {
     @Autowired
     private FileService fileService;
     @Autowired
     private FileUploadConf fileUploadConf;
 
+    private String fileSaveBasePath = "F:/fileServer/";
+
     @PostMapping("/upload")
     @ResponseBody
     public ResponseResult upload(@RequestParam("file") MultipartFile file, HttpServletRequest request) throws IOException {
-       String fileExt[]={"doc","docx","jpg","png"};
-        checkFileExt(file,fileExt,"请上传doc,docx,jpg,png格式文件");
-        String relativePath = "fileUpload";
+        String fileExt[] = {"doc", "docx", "jpg", "png"};
+        checkFileExt(file, fileExt, "请上传doc,docx,jpg,png格式文件");
+        String relativePath = "/files/";
         String fileName = file.getOriginalFilename();
         String fileSavePath = getFileSavePath(relativePath);
-        File dest = new File(fileSavePath);
+        relativePath =  relativePath + fileName;
+        File dest = new File(fileSavePath+fileName);
         try {
             file.transferTo(dest);
-            com.feng.entity.File fileObj = new com.feng.entity.File(fileName, relativePath+ "/", FileEnum.COMMON_FILE.getFileId());
+            com.feng.entity.File fileObj = new com.feng.entity.File(fileName, relativePath , FileEnum.CLUB_FILE.getFileId());
             fileService.save(fileObj);
             log.info("上传成功");
             return ResponseResultUtil.renderSuccess(fileObj);
@@ -53,52 +56,56 @@ public class UploadController {
     @PostMapping("/uploadImg")
     @ResponseBody
     public ResponseResult uploadImg(@RequestParam("file") MultipartFile file, HttpServletRequest request) throws IOException {
-        String fileExt[]={"jpg","png"};
-        checkFileExt(file,fileExt,"请上传jpg,png格式图片");
-        String relativePath = "fileUpload";
+        String fileExt[] = {"jpg", "png"};
+        checkFileExt(file, fileExt, "请上传jpg,png格式图片");
+        String relativePath = "/images/";
         String fileName = file.getOriginalFilename();
         String imgSavePath = getFileSavePath(relativePath);
-        File dest = new File(imgSavePath);
+        relativePath =  relativePath + fileName;
+        File dest = new File(imgSavePath+fileName);
         try {
             file.transferTo(dest);
-            fileService.insert(new com.feng.entity.File(fileName, imgSavePath,FileEnum.COMMON_IMG.getFileId()));
+            fileService.insert(new com.feng.entity.File(fileName, relativePath, FileEnum.COMMON_IMG.getFileId()));
             log.info("上传成功");
-            String fileSaveUrl = request.getContextPath() + "/" + imgSavePath;
-            return ResponseResultUtil.renderSuccess(fileSaveUrl);
+            return ResponseResultUtil.renderSuccess(relativePath);
         } catch (IOException e) {
             log.error(e.toString(), e);
         }
         return ResponseResultUtil.renderError(ErroEnum.FALE_UPLOAD_FAIL);
     }
 
-    private void  checkFileExt(MultipartFile file,String fileExt[],String msg){
+    private void checkFileExt(MultipartFile file, String fileExt[], String msg) {
         boolean checkResultError = true;
         if (file.isEmpty()) {
             throw new BusinessException(ErroEnum.FILE_NULL);
         }
+
         String fileName = file.getOriginalFilename();
-        String uploadFileExt = fileName.substring(fileName.indexOf('.'));
-        for(String s : fileExt){
-            if(s.equals(uploadFileExt)){
-                checkResultError=false;
-                break;
+        String uploadFileExt = fileName.substring(fileName.indexOf('.') + 1);
+        if (fileExt == null || fileExt.length == 0) {
+            checkResultError = false;
+        } else {
+            for (String s : fileExt) {
+                if (uploadFileExt.equals(s)) {
+                    checkResultError = false;
+                    break;
+                }
             }
         }
-        if(fileExt==null||fileExt.length==0){
-            checkResultError=false;
-        }
-        if (checkResultError ) {
+
+
+        if (checkResultError) {
             throw new BusinessException(ErroEnum.FILE_FORMAT_ERROR.setMsg(msg));
         }
     }
-    private String  getFileSavePath(String relativePath){
-        String filePath = this.getClass().getResource("/").getPath() + relativePath;
+
+    private String getFileSavePath(String relativePath) {
+        String filePath = fileSaveBasePath + relativePath;
+        System.out.println(filePath);
         File fileSave = new File(filePath);
         if (!fileSave.exists()) {
             fileSave.mkdirs();
         }
-        System.out.println(this.getClass().getResource("/"));
-        System.out.println(filePath);
         return filePath;
     }
 }

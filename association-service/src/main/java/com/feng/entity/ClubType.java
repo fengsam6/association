@@ -3,6 +3,7 @@ package com.feng.entity;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.enums.IdType;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 /**
@@ -25,6 +26,7 @@ public class ClubType implements Serializable {
     /**
      * 文章类型
      */
+    @NotBlank(message = "社团类型不能为空")
     private String type;
 
 

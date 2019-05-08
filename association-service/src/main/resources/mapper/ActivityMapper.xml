@@ -19,9 +19,55 @@
         <result column="club_id" property="clubId" />
     </resultMap>
 
+    <resultMap id="infoResultMap" type="com.feng.vo.ActivityInfoVo">
+        <id column="id" property="id" />
+        <result column="activity_name" property="activityName" />
+        <result column="site" property="site" />
+        <result column="hold_time" property="holdTime" />
+        <result column="introduce" property="introduce" />
+        <result column="apply_time" property="applyTime" />
+        <result column="permission" property="permission" />
+        <result column="activity_type_id" property="activityTypeId" />
+        <result column="file_id" property="fileId" />
+        <result column="club_id" property="clubId" />
+        <association property="activityType" javaType="com.feng.entity.ActivityType">
+            <id column="activity_type_id" property="id"/>
+            <result column="type" property="type"/>
+        </association>
+    </resultMap>
+
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, activity_name, site, hold_time, introduce, apply_time, permission, activity_type_id, file_id, club_id
     </sql>
 
+    <select id="getInfoById" resultMap="infoResultMap" parameterType="integer">
+        SELECT
+        a.*, at .type
+        FROM
+        activity a
+        INNER JOIN activity_type at ON a.activity_type_id = at .id
+        WHERE
+         a.id = #{id}
+    </select>
+
+    <select id="findActivity" resultMap="infoResultMap" parameterType="com.feng.entity.Activity">
+        SELECT
+        a.*, at .type
+        FROM
+        activity a
+        INNER JOIN activity_type at ON a.activity_type_id = at .id
+        WHERE
+        1 > 0
+        <if test="activityTypeId !=null ">
+            AND a.activity_type_id = #{activityTypeId}
+        </if>
+        <if test="activityName != null and activityName != '' ">
+            AND a.activity_name LIKE CONCAT('%', #{activityName},'%')
+        </if>
+        <if test="site != null and site != '' ">
+            AND a.site LIKE CONCAT('%', #{site},'%')
+        </if>
+        ORDER BY apply_time DESC
+    </select>
 </mapper>

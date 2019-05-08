@@ -6,16 +6,20 @@ import com.feng.entity.ResponseResult;
 import com.feng.service.FileService;
 import com.feng.util.ResponseResultUtil;
 import com.github.pagehelper.PageInfo;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin
 @RequestMapping("/files")
+@Api("社团管理系统后台文件管理文档接口")
 public class FileController {
     @Autowired
     private FileService fileService;
 
+    @ApiOperation("通过文件id查看一个文件")
     @GetMapping("/{id}")
     public ResponseResult get(@PathVariable("id") Integer id) throws Exception {
         File file = fileService.selectById(id);
@@ -23,11 +27,13 @@ public class FileController {
     }
 
     @GetMapping
+    @ApiOperation("根据条件分页查询所有文件")
     public ResponseResult list(File search, @RequestParam(defaultValue = "1") int pageNum, @RequestParam(defaultValue = "10") int pageSize) {
         PageInfo filePageInfo = fileService.getPage(pageNum, pageSize, search);
         return ResponseResultUtil.renderSuccess(filePageInfo);
     }
 
+    @ApiOperation("通过文件id删除一个文件")
     @DeleteMapping("/{id}")
     public ResponseResult delete(@PathVariable("id") Integer id) {
         fileService.deleteById(id);

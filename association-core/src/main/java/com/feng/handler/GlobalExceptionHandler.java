@@ -2,6 +2,7 @@ package com.feng.handler;
 
 import com.feng.entity.ResponseResult;
 import com.feng.enums.ErroEnum;
+import com.feng.exception.AuthenticationFailException;
 import com.feng.exception.BusinessException;
 import com.feng.exception.ParamInvalidException;
 import com.feng.util.ResponseResultUtil;
@@ -25,6 +26,12 @@ public class GlobalExceptionHandler {
         return ResponseResultUtil.renderError(ErroEnum.INVALIDATE_PARAM_EXCEPTION.setMsg(e.getMessage()));
     }
 
+    @ExceptionHandler(AuthenticationFailException.class)
+    public ResponseResult handleAuthenticationFailException(AuthenticationFailException e) {
+        log.error("----------{}---- ----",e.getMessage());
+        e.printStackTrace();
+        return ResponseResultUtil.renderError(e);
+    }
     @ExceptionHandler(ParamInvalidException.class)
     public ResponseResult paramInvalidExceptionHandler(ParamInvalidException e) {
         log.error("----------{}---- ----",e.getMessage());

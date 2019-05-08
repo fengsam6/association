@@ -56,8 +56,8 @@ public class Passage implements Serializable {
     @NotNull(message = "文章类型不能为空")
     private Integer passageTypeId;
 
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy年MM月dd")
+    @DateTimeFormat(pattern = "yyyy年MM月dd")
     private Date publishTime;
     /**
      * 点击次数

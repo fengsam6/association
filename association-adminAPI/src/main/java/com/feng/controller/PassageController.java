@@ -7,7 +7,10 @@ import com.feng.enums.ErroEnum;
 import com.feng.exception.ParamInvalidException;
 import com.feng.service.PassageService;
 import com.feng.util.ResponseResultUtil;
+import com.feng.vo.PassageInfoVo;
 import com.github.pagehelper.PageInfo;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -25,29 +28,34 @@ import javax.validation.Valid;
 @RestController
 @CrossOrigin
 @RequestMapping("/passages")
+@Api("社团管理系统后台文章管理接口")
 public class PassageController {
     @Autowired
     private PassageService passageService;
 
+    @ApiOperation("通过id获取一篇文章详细信息")
     @GetMapping("/{id}")
-    public ResponseResult getById(@PathVariable("id") Integer id) {
-        Passage passage = passageService.getById(id);
-        return ResponseResultUtil.renderSuccess(passage);
+    public ResponseResult getInfoById(@PathVariable("id") Integer id) {
+        PassageInfoVo passageInfoVo = passageService.getInfoById(id);
+        return ResponseResultUtil.renderSuccess(passageInfoVo);
     }
 
     @GetMapping
+    @ApiOperation("根据条件分页查询所有文章")
     public ResponseResult list(@RequestParam(defaultValue = "1") int pageNum, @RequestParam(defaultValue = "8") int pageSize, Passage search) {
-       PageInfo<Passage> passageList = passageService.getPage(pageNum, pageSize, search);
+        PageInfo<PassageInfoVo> passageList = passageService.findPage(pageNum, pageSize, search);
         return ResponseResultUtil.renderSuccess(passageList);
     }
 
     @DeleteMapping("/{id}")
+    @ApiOperation("通过id删除一篇文章")
     public ResponseResult delete(@PathVariable("id") Integer id) {
         passageService.deleteById(id);
         return ResponseResultUtil.renderSuccess(id);
     }
 
     @PostMapping
+    @ApiOperation("添加一篇文章")
     public ResponseResult add(@Valid @RequestBody Passage passage, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             String msg = bindingResult.getFieldError().getDefaultMessage();
@@ -58,7 +66,8 @@ public class PassageController {
     }
 
     @PutMapping
-    public ResponseResult update(@RequestBody @Valid Passage passage, BindingResult bindingResult) {
+    @ApiOperation("通过id更新一篇文章")
+    public ResponseResult update(@RequestBody @Valid PassageInfoVo passage, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             String msg = bindingResult.getFieldError().getDefaultMessage();
             throw new ParamInvalidException(ErroEnum.INVALIDATE_PARAM_EXCEPTION.setMsg(msg));

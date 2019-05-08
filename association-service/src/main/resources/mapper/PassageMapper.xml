@@ -7,26 +7,65 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.feng.entity.Passage">
-        <id column="id" property="id" />
-        <result column="title" property="title" />
-        <result column="content" property="content" />
-        <result column="publisher" property="publisher" />
-        <result column="source" property="source" />
-        <result column="passage_type_id" property="passageTypeId" />
-        <result column="club_id" property="clubId" />
-        <result column="publish_time" property="publishTime" />
-        <result column="click_num" property="clickNum" />
-        <result column="file_id" property="fileId" />
+        <id column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="content" property="content"/>
+        <result column="publisher" property="publisher"/>
+        <result column="source" property="source"/>
+        <result column="passage_type_id" property="passageTypeId"/>
+        <result column="club_id" property="clubId"/>
+        <result column="publish_time" property="publishTime"/>
+        <result column="click_num" property="clickNum"/>
+        <result column="file_id" property="fileId"/>
+
     </resultMap>
 
+    <resultMap id="infoResultMap" type="com.feng.vo.PassageInfoVo">
+        <id column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="content" property="content"/>
+        <result column="publisher" property="publisher"/>
+        <result column="source" property="source"/>
+        <result column="club_id" property="clubId"/>
+        <result column="publish_time" property="publishTime"/>
+        <result column="click_num" property="clickNum"/>
+        <result column="file_id" property="fileId"/>
+        <result column="passage_type_id" property="passageTypeId"/>
+        <association property="passageType" javaType="com.feng.entity.PassageType">
+            <id column="passage_type_id" property="id"/>
+            <result column="type" property="type"/>
+        </association>
+    </resultMap>
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, title, content, publisher, source, passage_type_id, club_id, publish_time, click_num, file_id
     </sql>
 
 
-    <select id="getByTypeID" resultMap="BaseResultMap">
-        SELECT <include refid="Base_Column_List"></include> , pt.type FROM passage p
-        INNER JOIN passage_type pt ON p.passage_type = pt.id
+    <select id="getInfoById" resultMap="infoResultMap" parameterType="integer">
+       SELECT
+	p.*,
+	pt.type
+     FROM
+	passage p
+   INNER JOIN passage_type pt ON p.passage_type_id = pt.id
+    AND p.id = #{id}
+    </select>
+
+    <select id="findPassage" resultMap="infoResultMap" parameterType="com.feng.entity.Passage">
+        SELECT
+        p.*,
+        pt.type
+        FROM
+        passage p
+        INNER JOIN passage_type pt ON p.passage_type_id = pt.id
+        WHERE 1 > 0
+        <if test="passageTypeId !=null ">
+            AND p.passage_type_id = #{passageTypeId}
+        </if>
+        <if test="title != null and title != '' ">
+            AND p.title LIKE CONCAT('%', #{title},'%')
+        </if>
+        ORDER BY publish_time DESC
     </select>
 </mapper>

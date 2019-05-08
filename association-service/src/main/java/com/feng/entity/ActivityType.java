@@ -3,6 +3,7 @@ package com.feng.entity;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.enums.IdType;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 /**
@@ -25,6 +26,7 @@ public class ActivityType implements Serializable {
     /**
      * 活动类型
      */
+    @NotBlank(message = "活动类型名称不能为空")
     private String type;
 
 

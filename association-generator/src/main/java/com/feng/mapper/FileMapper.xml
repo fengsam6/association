@@ -10,12 +10,13 @@
         <id column="id" property="id" />
         <result column="file_name" property="fileName" />
         <result column="file_path" property="filePath" />
+        <result column="create_time" property="createTime" />
         <result column="file_type_id" property="fileTypeId" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, file_name, file_path, file_type_id
+        id, file_name, file_path, create_time, file_type_id
     </sql>
 
 </mapper>

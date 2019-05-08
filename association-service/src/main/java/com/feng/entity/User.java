@@ -2,10 +2,12 @@ package com.feng.entity;
 
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.enums.IdType;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -48,6 +50,8 @@ public class User implements Serializable {
     /**
      * 用户创建时间
      */
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy年MM月dd")
+    @DateTimeFormat(pattern = "yyyy年MM月dd")
     private Date createTime;
     /**
      * 用户是否激活（默认0，未激活；1激活）

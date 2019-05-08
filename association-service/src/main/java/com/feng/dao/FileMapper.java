@@ -5,12 +5,12 @@ import com.feng.entity.File;
 
 /**
  * <p>
- *  Mapper 接口
+ * Mapper 接口
  * </p>
  *
  * @author rf
  * @since 2019-04-08
  */
 public interface FileMapper extends BaseMapper<File> {
-Integer save(File file);
+    Integer save(File file);
 }

@@ -2,6 +2,7 @@ package com.feng.service;
 
 import com.baomidou.mybatisplus.service.IService;
 import com.feng.entity.Club;
+import com.feng.vo.ClubInfoVo;
 import com.feng.vo.ClubPageVo;
 import com.feng.vo.ClubVo;
 import com.github.pagehelper.PageInfo;
@@ -20,7 +21,7 @@ import java.util.List;
 public interface ClubService extends IService<Club> {
     ClubVo getTopN(int n, Club search);
 
-    PageInfo<Club> getPage(int pageNum, int pageSize, Club search);
+    PageInfo<ClubInfoVo> getPage(int pageNum, int pageSize, Club search);
 
     ClubPageVo getPageWithTypeList(int pageNum, int pageSize, Integer clubTypeId);
 

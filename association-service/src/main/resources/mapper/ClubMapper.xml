@@ -12,9 +12,45 @@
         <result column="status" property="status" />
     </resultMap>
 
+    <resultMap id="infoResultMap" type="com.feng.vo.ClubInfoVo">
+        <id column="num" property="num" />
+        <result column="name" property="name" />
+        <result column="introduce" property="introduce" />
+        <result column="create_time" property="createTime" />
+        <result column="club_type_id" property="clubTypeId" />
+        <result column="status" property="status" />
+        <association property="clubType" javaType="com.feng.entity.ClubType">
+            <id column="club_type_id" property="id"/>
+            <result column="type" property="type"/>
+        </association>
+    </resultMap>
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         num, name, introduce, create_time, club_type_id, status
     </sql>
+    <select id="getInfoById" resultMap="infoResultMap">
+        SELECT
+        c.*,
+        ct.type
+        FROM
+        club c
+        INNER JOIN club_type ct ON c.club_type_id = ct.id
+        AND c.id = #{id}
+    </select>
 
+    <select id="findClub" resultMap="infoResultMap" parameterType="com.feng.entity.Club">
+        SELECT
+        c.*,
+        ct.type
+        FROM
+        club c
+        INNER JOIN club_type ct ON c.club_type_id = ct.id
+        WHERE 1 > 0
+        <if test="clubTypeId !=null ">
+            AND c.club_type_id = #{clubTypeId}
+        </if>
+        <if test="name != null and name != '' ">
+            AND c.name LIKE CONCAT('%', #{name},'%')
+        </if>
+    </select>
 </mapper>

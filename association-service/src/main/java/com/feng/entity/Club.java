@@ -23,7 +23,7 @@ public class Club implements Serializable {
     /**
      * 社团编号
      */
-    @TableId(value = "num", type = IdType.AUTO)
+    @TableId(value = "num")
     private Integer num;
     /**
      * 社团名称

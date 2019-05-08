@@ -2,13 +2,16 @@ package com.feng.service.impl;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
+import com.feng.dao.FileMapper;
 import com.feng.dao.PassageMapper;
 import com.feng.dao.PassageTypeMapper;
+import com.feng.entity.File;
 import com.feng.entity.Passage;
 import com.feng.entity.PassageType;
 import com.feng.enums.ErroEnum;
 import com.feng.exception.BusinessException;
 import com.feng.service.PassageService;
+import com.feng.vo.PassageInfoVo;
 import com.feng.vo.PassagePageVo;
 import com.feng.vo.PassageVo;
 import com.github.pagehelper.PageHelper;
@@ -22,6 +25,8 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -38,6 +43,8 @@ public class PassageServiceImpl implements PassageService {
     private PassageMapper passageMapper;
     @Autowired
     private PassageTypeMapper passageTypeMapper;
+    @Autowired
+    private FileMapper fileMapper;
 
     @Override
     public PassageVo getTopN(int n, Passage search) {
@@ -48,6 +55,7 @@ public class PassageServiceImpl implements PassageService {
             passageWrapper.eq("passage_type_id", search.getPassageTypeId());
             passageType = passageTypeMapper.selectById(search.getPassageTypeId());
         }
+        passageWrapper.orderBy("publish_time", false);
         PageHelper.startPage(1, n);
         List<Passage> passageList = passageMapper.selectList(passageWrapper);
         return new PassageVo(passageType, passageList);
@@ -69,6 +77,13 @@ public class PassageServiceImpl implements PassageService {
     }
 
     @Override
+    public PageInfo<PassageInfoVo> findPage(int pageNum, int pageSize, Passage search) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<PassageInfoVo> passageList = passageMapper.findPassage(search);
+        return new PageInfo<>(passageList);
+    }
+
+    @Override
     public PassagePageVo getPageWithTypeList(int pageNum, int pageSize, Integer passageTypeId) {
         PassageType passageType = null;
         Wrapper<Passage> passageWrapper = new EntityWrapper<>();
@@ -76,6 +91,7 @@ public class PassageServiceImpl implements PassageService {
             passageWrapper.eq("passage_type_id", passageTypeId);
             passageType = passageTypeMapper.selectById(passageTypeId);
         }
+        passageWrapper.orderBy("publish_time", false);
         PageHelper.startPage(pageNum, pageSize);
         List<Passage> passageList = passageMapper.selectList(passageWrapper);
         return new PassagePageVo(passageType, new PageInfo<>(passageList));
@@ -83,9 +99,31 @@ public class PassageServiceImpl implements PassageService {
 
     @Override
     @Cacheable(value = "passage")
-    public Passage getById(Serializable id) {
-        Passage passage = passageMapper.selectById(id);
+    public PassageInfoVo getInfoById(Integer id) {
+        PassageInfoVo passageInfoVo = passageMapper.getInfoById(id);
+        if (passageInfoVo == null) {
+            throw new BusinessException(ErroEnum.BUSINESS_EXCEPTION.setMsg("文章不存在"));
+        }
+        File file = null;
+        if (passageInfoVo.getFileId() != 0) {
+            file = fileMapper.selectById(passageInfoVo.getFileId());
+        }else {
+            return passageInfoVo;
+        }
 
+        List<File> fileList = new ArrayList<>();
+        if (file != null) {
+            fileList.add(file);
+            passageInfoVo.setFileList(fileList);
+        }
+
+        return passageInfoVo;
+    }
+
+    @Override
+    @Cacheable(value = "passage")
+    public Passage getById(Integer id) {
+        Passage passage = passageMapper.selectById(id);
         if (passage == null) {
             throw new BusinessException(ErroEnum.BUSINESS_EXCEPTION.setMsg("文章不存在"));
         }
@@ -95,6 +133,9 @@ public class PassageServiceImpl implements PassageService {
     @Override
 //    @CachePut(value = "passage", key = "#passage.id")
     public Passage add(Passage passage) {
+        if (StringUtils.isEmpty(passage.getSource())) {
+            passage.setSource("社团管理员");
+        }
         passageMapper.insert(passage);
         return passage;
     }
@@ -109,8 +150,8 @@ public class PassageServiceImpl implements PassageService {
 
     @Override
     @CachePut(value = "passage", key = "#passage.id")
-    public Passage updateWithId(Passage passage) {
+    public PassageInfoVo updateWithId(PassageInfoVo passage) {
         passageMapper.updateById(passage);
-        return passage;
+        return  passage;
     }
 }
