@@ -11,7 +11,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author rf
- * @since 2019-05-05
+ * @since 2019-05-08
  */
 public class Passage implements Serializable {
 
@@ -51,7 +51,6 @@ public class Passage implements Serializable {
      * 点击次数
      */
     private Integer clickNum;
-    private Integer fileId;
 
 
     public Integer getId() {
@@ -126,14 +125,6 @@ public class Passage implements Serializable {
         this.clickNum = clickNum;
     }
 
-    public Integer getFileId() {
-        return fileId;
-    }
-
-    public void setFileId(Integer fileId) {
-        this.fileId = fileId;
-    }
-
     @Override
     public String toString() {
         return "Passage{" +
@@ -146,7 +137,6 @@ public class Passage implements Serializable {
         ", clubId=" + clubId +
         ", publishTime=" + publishTime +
         ", clickNum=" + clickNum +
-        ", fileId=" + fileId +
         "}";
     }
 }

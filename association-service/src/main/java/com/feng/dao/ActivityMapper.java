@@ -1,9 +1,9 @@
 package com.feng.dao;
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
+import com.feng.dto.ActivityFileDto;
+import com.feng.dto.ActivityTypeDto;
 import com.feng.entity.Activity;
-import com.feng.entity.Activity;
-import com.feng.vo.ActivityInfoVo;
 
 import java.util.List;
 
@@ -16,7 +16,9 @@ import java.util.List;
  * @since 2019-04-08
  */
 public interface ActivityMapper extends BaseMapper<Activity> {
-    List<ActivityInfoVo> findActivity(Activity activity);
+    List<ActivityTypeDto> findActivity(Activity activity);
 
-    ActivityInfoVo getInfoById(Integer id);
+    ActivityFileDto getInfoById(Integer id);
+
+    Integer add(Activity activity);
 }

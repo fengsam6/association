@@ -11,7 +11,7 @@ import org.springframework.stereotype.Controller;
  * </p>
  *
  * @author rf
- * @since 2019-05-05
+ * @since 2019-05-08
  */
 @Controller
 @RequestMapping("/club")

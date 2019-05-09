@@ -1,8 +1,9 @@
 package com.feng.dao;
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
+import com.feng.dto.PassageTypeDto;
+import com.feng.dto.PassageFileDto;
 import com.feng.entity.Passage;
-import com.feng.vo.PassageInfoVo;
 
 import java.util.List;
 
@@ -15,7 +16,11 @@ import java.util.List;
  * @since 2019-03-03
  */
 public interface PassageMapper extends BaseMapper<Passage> {
-    List<PassageInfoVo> findPassage(Passage passage);
+    List<PassageTypeDto> findPassage(Passage passage);
 
-    PassageInfoVo getInfoById(Integer id);
+    PassageFileDto getInfoById(Integer id);
+
+    Passage findSimplePassage(Passage passage);
+
+    int add(Passage passage);
 }

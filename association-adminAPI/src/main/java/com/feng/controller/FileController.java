@@ -1,8 +1,10 @@
 package com.feng.controller;
 
 
+import com.feng.constants.AppConstant;
 import com.feng.entity.File;
 import com.feng.entity.ResponseResult;
+import com.feng.enums.FileEnum;
 import com.feng.service.FileService;
 import com.feng.util.ResponseResultUtil;
 import com.github.pagehelper.PageInfo;
@@ -10,6 +12,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @CrossOrigin
@@ -40,5 +44,32 @@ public class FileController {
         return ResponseResultUtil.renderSuccess(id);
     }
 
+    @ApiOperation("添加文件")
+    @PostMapping
+    public ResponseResult save(@Valid @RequestBody File file) {
+        fileService.insert(file);
+        return ResponseResultUtil.renderSuccess("添加文件成功");
+    }
+
+    @ApiOperation("添加活动文件")
+    @PostMapping("/activity")
+    public ResponseResult saveActivityFile(@Valid @RequestBody File file) {
+        file.setPassageId(0);
+        file.setFileTypeId(FileEnum.ACTIVITY_IMG.getFileId());
+        fileService.save(file);
+        return ResponseResultUtil.renderSuccess("添加文件成功");
+    }
+
+    @ApiOperation("添加新闻文件")
+    @PostMapping("/passage")
+    public ResponseResult savePassageFile(@Valid @RequestBody File file) {
+        file.setActivityId(0);
+        if (file.getFileTypeId() == null) {
+            file.setFileTypeId(FileEnum.PASSAGE_IMG.getFileId());
+        }
+
+        fileService.save(file);
+        return ResponseResultUtil.renderSuccess("添加文件成功");
+    }
 }
 

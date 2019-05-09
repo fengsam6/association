@@ -7,51 +7,68 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.feng.entity.Activity">
-        <id column="id" property="id" />
-        <result column="activity_name" property="activityName" />
-        <result column="site" property="site" />
-        <result column="hold_time" property="holdTime" />
-        <result column="introduce" property="introduce" />
-        <result column="apply_time" property="applyTime" />
-        <result column="permission" property="permission" />
-        <result column="activity_type_id" property="activityTypeId" />
-        <result column="file_id" property="fileId" />
-        <result column="club_id" property="clubId" />
+        <id column="id" property="id"/>
+        <result column="activity_name" property="activityName"/>
+        <result column="site" property="site"/>
+        <result column="hold_time" property="holdTime"/>
+        <result column="introduce" property="introduce"/>
+        <result column="apply_time" property="applyTime"/>
+        <result column="permission" property="permission"/>
+        <result column="activity_type_id" property="activityTypeId"/>
+        <result column="club_id" property="clubId"/>
     </resultMap>
 
-    <resultMap id="infoResultMap" type="com.feng.vo.ActivityInfoVo">
-        <id column="id" property="id" />
-        <result column="activity_name" property="activityName" />
-        <result column="site" property="site" />
-        <result column="hold_time" property="holdTime" />
-        <result column="introduce" property="introduce" />
-        <result column="apply_time" property="applyTime" />
-        <result column="permission" property="permission" />
-        <result column="activity_type_id" property="activityTypeId" />
-        <result column="file_id" property="fileId" />
-        <result column="club_id" property="clubId" />
+    <resultMap id="ListMap" type="com.feng.dto.ActivityTypeDto">
+        <id column="id" property="id"/>
+        <result column="activity_name" property="activityName"/>
+        <result column="site" property="site"/>
+        <result column="hold_time" property="holdTime"/>
+        <result column="introduce" property="introduce"/>
+        <result column="apply_time" property="applyTime"/>
+        <result column="permission" property="permission"/>
+        <result column="activity_type_id" property="activityTypeId"/>
+        <result column="club_id" property="clubId"/>
         <association property="activityType" javaType="com.feng.entity.ActivityType">
             <id column="activity_type_id" property="id"/>
             <result column="type" property="type"/>
         </association>
     </resultMap>
+    <resultMap id="infoResultMap" type="com.feng.dto.ActivityFileDto">
+        <id column="id" property="id"/>
+        <result column="activity_name" property="activityName"/>
+        <result column="site" property="site"/>
+        <result column="hold_time" property="holdTime"/>
+        <result column="introduce" property="introduce"/>
+        <result column="apply_time" property="applyTime"/>
+        <result column="permission" property="permission"/>
+        <result column="activity_type_id" property="activityTypeId"/>
+        <result column="club_id" property="clubId"/>
+        <collection property="fileList" column="fileId" ofType="com.feng.entity.File" javaType="ArrayList">
+            <id column="fileId" property="id"/>
+            <result column="file_name" property="fileName"/>
+            <result column="file_path" property="filePath"/>
+        </collection>
+
+    </resultMap>
+
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, activity_name, site, hold_time, introduce, apply_time, permission, activity_type_id, file_id, club_id
+        id, activity_name, site, hold_time, introduce, apply_time, permission, activity_type_id, club_id
     </sql>
 
     <select id="getInfoById" resultMap="infoResultMap" parameterType="integer">
-        SELECT
-        a.*, at .type
+               SELECT
+            a.*, f.file_name,
+            f.file_path,
+            f.id AS fileId
         FROM
-        activity a
-        INNER JOIN activity_type at ON a.activity_type_id = at .id
-        WHERE
-         a.id = #{id}
+            activity a
+        LEFT JOIN file f ON f.activity_id = a.id
+        WHERE a.id = #{id}
     </select>
 
-    <select id="findActivity" resultMap="infoResultMap" parameterType="com.feng.entity.Activity">
+    <select id="findActivity" resultMap="ListMap" parameterType="com.feng.entity.Activity">
         SELECT
         a.*, at .type
         FROM
@@ -70,4 +87,18 @@
         </if>
         ORDER BY apply_time DESC
     </select>
+
+    <insert id="add" useGeneratedKeys="true" keyProperty="id" keyColumn="id" parameterType="com.feng.entity.Activity">
+                    INSERT INTO activity (
+                        activity_name,
+                        site,
+                        hold_time,
+                        introduce,
+                        activity_type_id
+                    )
+                    VALUES
+                        (
+                            #{activityName}, #{site},#{holdTime},#{introduce}, #{activityTypeId}
+                    )
+    </insert>
 </mapper>

@@ -1,20 +1,17 @@
 package com.feng.controller;
 
 
+import com.feng.dto.ActivityFileDto;
 import com.feng.entity.Activity;
 import com.feng.entity.ResponseResult;
 import com.feng.service.ActivityService;
 import com.feng.util.ResponseResultUtil;
-import com.feng.vo.ActivityInfoVo;
 import com.feng.vo.ActivityPageVo;
 import com.feng.vo.ActivityVo;
-import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * <p>
@@ -34,8 +31,8 @@ private ActivityService activityService;
     @GetMapping("/{id}")
     @ApiOperation("通过活动id查看一个活动")
     public ResponseResult get(@PathVariable("id") Integer id) throws Exception{
-        ActivityInfoVo activity = activityService.getById(id);
-        return ResponseResultUtil.renderSuccess(activity);
+        ActivityFileDto activityFileDto = activityService.getInfoById(id);
+        return ResponseResultUtil.renderSuccess(activityFileDto);
     }
 
     @GetMapping

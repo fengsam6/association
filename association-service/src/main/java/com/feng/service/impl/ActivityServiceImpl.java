@@ -6,28 +6,25 @@ import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.feng.dao.ActivityMapper;
 import com.feng.dao.ActivityTypeMapper;
 import com.feng.dao.FileMapper;
+import com.feng.dto.ActivityFileDto;
+import com.feng.dto.ActivityTypeDto;
 import com.feng.entity.Activity;
 import com.feng.entity.ActivityType;
-import com.feng.entity.File;
 import com.feng.enums.ErroEnum;
 import com.feng.exception.BusinessException;
 import com.feng.service.ActivityService;
-import com.feng.vo.ActivityInfoVo;
 import com.feng.vo.ActivityPageVo;
 import com.feng.vo.ActivityVo;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-import org.springframework.util.StringUtils;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -61,9 +58,9 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity> i
     }
 
     @Override
-    public PageInfo<ActivityInfoVo> getPage(int pageNum, int pageSize, Activity search) {
+    public PageInfo<ActivityTypeDto> getPage(int pageNum, int pageSize, Activity search) {
         PageHelper.startPage(pageNum, pageSize);
-        List<ActivityInfoVo> activityList = activityMapper.findActivity(search);
+        List<ActivityTypeDto> activityList = activityMapper.findActivity(search);
         return new PageInfo<>(activityList);
     }
 
@@ -83,32 +80,20 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity> i
 
     @Override
     @Cacheable(value = "activity")
-    public ActivityInfoVo getById(Serializable id) {
-        Activity activity = activityMapper.selectById(id);
-        if (activity == null) {
+    public ActivityFileDto getInfoById(Integer id) {
+        ActivityFileDto activityFileDto = activityMapper.getInfoById(id);
+        if (activityFileDto == null) {
             throw new BusinessException(ErroEnum.BUSINESS_EXCEPTION.setMsg("活动不存在"));
         }
-        ActivityInfoVo activityInfoVo = new ActivityInfoVo();
-        BeanUtils.copyProperties(activity, activityInfoVo);
-        File file =null;
-        if (activity.getFileId() != 0) {
-            file = fileMapper.selectById(activity.getFileId());
-        }else {
-            return activityInfoVo;
-        }
-        List<File> fileList = new ArrayList<>();
-        if(file!=null){
-            fileList.add(file);
-            activityInfoVo.setFileList(fileList);
-        }
 
-        return activityInfoVo;
+
+        return activityFileDto;
     }
 
     @Override
 //    @CachePut(value = "activity", key = "#activity.id")
     public Activity add(Activity activity) {
-        activityMapper.insert(activity);
+        activityMapper.add(activity);
         return activity;
     }
 
@@ -122,7 +107,7 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity> i
 
     @Override
     @CachePut(value = "activity", key = "#activity.id")
-    public ActivityInfoVo updateWithId(ActivityInfoVo activity) {
+    public ActivityFileDto updateWithId(ActivityFileDto activity) {
         activityMapper.updateById(activity);
         return activity;
     }

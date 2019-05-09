@@ -16,12 +16,11 @@
         <result column="club_id" property="clubId" />
         <result column="publish_time" property="publishTime" />
         <result column="click_num" property="clickNum" />
-        <result column="file_id" property="fileId" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, title, content, publisher, source, passage_type_id, club_id, publish_time, click_num, file_id
+        id, title, content, publisher, source, passage_type_id, club_id, publish_time, click_num
     </sql>
 
 </mapper>

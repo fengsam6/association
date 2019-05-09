@@ -5,13 +5,13 @@ import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.feng.dao.FileMapper;
 import com.feng.dao.PassageMapper;
 import com.feng.dao.PassageTypeMapper;
-import com.feng.entity.File;
+import com.feng.dto.PassageTypeDto;
+import com.feng.dto.PassageFileDto;
 import com.feng.entity.Passage;
 import com.feng.entity.PassageType;
 import com.feng.enums.ErroEnum;
 import com.feng.exception.BusinessException;
 import com.feng.service.PassageService;
-import com.feng.vo.PassageInfoVo;
 import com.feng.vo.PassagePageVo;
 import com.feng.vo.PassageVo;
 import com.github.pagehelper.PageHelper;
@@ -25,8 +25,6 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -61,25 +59,11 @@ public class PassageServiceImpl implements PassageService {
         return new PassageVo(passageType, passageList);
     }
 
-    @Override
-    public PageInfo<Passage> getPage(int pageNum, int pageSize, Passage search) {
-        Wrapper<Passage> passageWrapper = new EntityWrapper<>();
-        if (search != null && !StringUtils.isEmpty(search.getPassageTypeId()) && search.getPassageTypeId() != 0) {
-            passageWrapper.eq("passage_type_id", search.getPassageTypeId());
-        }
-        if (search != null && !StringUtils.isEmpty(search.getTitle())) {
-            passageWrapper.like("title", search.getTitle().trim());
-        }
-        passageWrapper.orderBy("publish_time", false);
-        PageHelper.startPage(pageNum, pageSize);
-        List<Passage> passageList = passageMapper.selectList(passageWrapper);
-        return new PageInfo<>(passageList);
-    }
 
     @Override
-    public PageInfo<PassageInfoVo> findPage(int pageNum, int pageSize, Passage search) {
+    public PageInfo<PassageTypeDto> findPage(int pageNum, int pageSize, Passage search) {
         PageHelper.startPage(pageNum, pageSize);
-        List<PassageInfoVo> passageList = passageMapper.findPassage(search);
+        List<PassageTypeDto> passageList = passageMapper.findPassage(search);
         return new PageInfo<>(passageList);
     }
 
@@ -99,36 +83,14 @@ public class PassageServiceImpl implements PassageService {
 
     @Override
     @Cacheable(value = "passage")
-    public PassageInfoVo getInfoById(Integer id) {
-        PassageInfoVo passageInfoVo = passageMapper.getInfoById(id);
-        if (passageInfoVo == null) {
+    public PassageFileDto getInfoById(Integer id) {
+        PassageFileDto passageFileDto = passageMapper.getInfoById(id);
+        if (passageFileDto == null) {
             throw new BusinessException(ErroEnum.BUSINESS_EXCEPTION.setMsg("文章不存在"));
         }
-        File file = null;
-        if (passageInfoVo.getFileId() != 0) {
-            file = fileMapper.selectById(passageInfoVo.getFileId());
-        }else {
-            return passageInfoVo;
-        }
-
-        List<File> fileList = new ArrayList<>();
-        if (file != null) {
-            fileList.add(file);
-            passageInfoVo.setFileList(fileList);
-        }
-
-        return passageInfoVo;
+        return passageFileDto;
     }
 
-    @Override
-    @Cacheable(value = "passage")
-    public Passage getById(Integer id) {
-        Passage passage = passageMapper.selectById(id);
-        if (passage == null) {
-            throw new BusinessException(ErroEnum.BUSINESS_EXCEPTION.setMsg("文章不存在"));
-        }
-        return passage;
-    }
 
     @Override
 //    @CachePut(value = "passage", key = "#passage.id")
@@ -136,7 +98,10 @@ public class PassageServiceImpl implements PassageService {
         if (StringUtils.isEmpty(passage.getSource())) {
             passage.setSource("社团管理员");
         }
-        passageMapper.insert(passage);
+        if (StringUtils.isEmpty(passage.getPublisher())) {
+            passage.setPublisher("社团管理员");
+        }
+        passageMapper.add(passage);
         return passage;
     }
 
@@ -150,7 +115,7 @@ public class PassageServiceImpl implements PassageService {
 
     @Override
     @CachePut(value = "passage", key = "#passage.id")
-    public PassageInfoVo updateWithId(PassageInfoVo passage) {
+    public PassageFileDto updateInfoById(PassageFileDto passage) {
         passageMapper.updateById(passage);
         return  passage;
     }

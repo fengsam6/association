@@ -15,13 +15,12 @@
         <result column="apply_time" property="applyTime" />
         <result column="permission" property="permission" />
         <result column="activity_type_id" property="activityTypeId" />
-        <result column="file_id" property="fileId" />
         <result column="club_id" property="clubId" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, activity_name, site, hold_time, introduce, apply_time, permission, activity_type_id, file_id, club_id
+        id, activity_name, site, hold_time, introduce, apply_time, permission, activity_type_id, club_id
     </sql>
 
 </mapper>

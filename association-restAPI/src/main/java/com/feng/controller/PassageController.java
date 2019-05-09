@@ -1,11 +1,11 @@
 package com.feng.controller;
 
 
+import com.feng.dto.PassageFileDto;
 import com.feng.entity.ResponseResult;
 import com.feng.util.ResponseResultUtil;
 import com.feng.entity.Passage;
 import com.feng.service.PassageService;
-import com.feng.vo.PassageInfoVo;
 import com.feng.vo.PassagePageVo;
 import com.feng.vo.PassageVo;
 import io.swagger.annotations.Api;
@@ -29,17 +29,12 @@ public class PassageController {
     @Autowired
     private PassageService passageService;
     @ApiOperation("通过id获取一篇文章详细信息")
-    @GetMapping("/{id}/info")
+    @GetMapping("/{id}")
     public ResponseResult getInfoById(@PathVariable("id") Integer id) {
-        PassageInfoVo passageInfoVo = passageService.getInfoById(id);
+        PassageFileDto passageInfoVo = passageService.getInfoById(id);
         return ResponseResultUtil.renderSuccess(passageInfoVo);
     }
-    @ApiOperation("通过id获取一篇文章")
-    @GetMapping("/{id}")
-    public ResponseResult getById(@PathVariable("id") Integer id) {
-        PassageInfoVo passage = passageService.getInfoById(id);
-        return ResponseResultUtil.renderSuccess(passage);
-    }
+
 
     @ApiOperation("根据条件分页查询所有文章")
     @GetMapping

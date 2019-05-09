@@ -1,13 +1,14 @@
 package com.feng.controller;
 
 
+import com.feng.dto.ActivityFileDto;
+import com.feng.dto.ActivityTypeDto;
 import com.feng.entity.Activity;
 import com.feng.entity.ResponseResult;
 import com.feng.enums.ErroEnum;
 import com.feng.exception.ParamInvalidException;
 import com.feng.service.ActivityService;
 import com.feng.util.ResponseResultUtil;
-import com.feng.vo.ActivityInfoVo;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -36,14 +37,14 @@ public class ActivityController {
     @ApiOperation("通过id获取一个活动")
     @GetMapping("/{id}")
     public ResponseResult getById(@PathVariable("id") Integer id) {
-        ActivityInfoVo activity = activityService.getById(id);
+        ActivityFileDto activity = activityService.getInfoById(id);
         return ResponseResultUtil.renderSuccess(activity);
     }
 
     @ApiOperation("根据条件分页查询所有活动")
     @GetMapping
     public ResponseResult list(@RequestParam(defaultValue = "1") int pageNum, @RequestParam(defaultValue = "8") int pageSize, Activity search) {
-        PageInfo<ActivityInfoVo> activityPageInfo = activityService.getPage(pageNum, pageSize, search);
+        PageInfo<ActivityTypeDto> activityPageInfo = activityService.getPage(pageNum, pageSize, search);
         return ResponseResultUtil.renderSuccess(activityPageInfo);
     }
 
@@ -62,12 +63,12 @@ public class ActivityController {
             throw new ParamInvalidException(ErroEnum.INVALIDATE_PARAM_EXCEPTION.setMsg(msg));
         }
         activityService.add(activity);
-        return ResponseResultUtil.renderSuccess("添加活动成功");
+            return ResponseResultUtil.renderSuccess(activity.getId());
     }
 
     @PutMapping
     @ApiOperation("通过id更新一个活动")
-    public ResponseResult update(@RequestBody @Valid ActivityInfoVo activity, BindingResult bindingResult) {
+    public ResponseResult update(@RequestBody @Valid ActivityFileDto activity, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             String msg = bindingResult.getFieldError().getDefaultMessage();
             throw new ParamInvalidException(ErroEnum.INVALIDATE_PARAM_EXCEPTION.setMsg(msg));

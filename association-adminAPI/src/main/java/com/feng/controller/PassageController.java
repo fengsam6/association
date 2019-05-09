@@ -1,13 +1,14 @@
 package com.feng.controller;
 
 
+import com.feng.dto.PassageTypeDto;
+import com.feng.dto.PassageFileDto;
 import com.feng.entity.Passage;
 import com.feng.entity.ResponseResult;
 import com.feng.enums.ErroEnum;
 import com.feng.exception.ParamInvalidException;
 import com.feng.service.PassageService;
 import com.feng.util.ResponseResultUtil;
-import com.feng.vo.PassageInfoVo;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -36,14 +37,14 @@ public class PassageController {
     @ApiOperation("通过id获取一篇文章详细信息")
     @GetMapping("/{id}")
     public ResponseResult getInfoById(@PathVariable("id") Integer id) {
-        PassageInfoVo passageInfoVo = passageService.getInfoById(id);
-        return ResponseResultUtil.renderSuccess(passageInfoVo);
+        PassageFileDto passageFileDto = passageService.getInfoById(id);
+        return ResponseResultUtil.renderSuccess(passageFileDto);
     }
 
     @GetMapping
     @ApiOperation("根据条件分页查询所有文章")
     public ResponseResult list(@RequestParam(defaultValue = "1") int pageNum, @RequestParam(defaultValue = "8") int pageSize, Passage search) {
-        PageInfo<PassageInfoVo> passageList = passageService.findPage(pageNum, pageSize, search);
+        PageInfo<PassageTypeDto> passageList = passageService.findPage(pageNum, pageSize, search);
         return ResponseResultUtil.renderSuccess(passageList);
     }
 
@@ -62,17 +63,18 @@ public class PassageController {
             throw new ParamInvalidException(ErroEnum.INVALIDATE_PARAM_EXCEPTION.setMsg(msg));
         }
         passageService.add(passage);
-        return ResponseResultUtil.renderSuccess("添加文章成功");
+        System.out.println(passage.getId());
+        return ResponseResultUtil.renderSuccess(passage.getId());
     }
 
     @PutMapping
     @ApiOperation("通过id更新一篇文章")
-    public ResponseResult update(@RequestBody @Valid PassageInfoVo passage, BindingResult bindingResult) {
+    public ResponseResult update(@RequestBody @Valid PassageFileDto passage, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             String msg = bindingResult.getFieldError().getDefaultMessage();
             throw new ParamInvalidException(ErroEnum.INVALIDATE_PARAM_EXCEPTION.setMsg(msg));
         }
-        passageService.updateWithId(passage);
+        passageService.updateInfoById(passage);
         return ResponseResultUtil.renderSuccess("更新文章成功");
     }
 }

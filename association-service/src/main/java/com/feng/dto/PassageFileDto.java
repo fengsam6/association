@@ -11,8 +11,6 @@ import java.util.List;
  * Created by rf on 2019/4/28.
  */
 @Data
-public class PassageDto {
-    private Passage passage;
-    private PassageType passageType;
+public class PassageFileDto extends Passage{
     private List<File> fileList;
 }

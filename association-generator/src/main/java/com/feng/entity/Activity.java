@@ -11,7 +11,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author rf
- * @since 2019-05-05
+ * @since 2019-05-08
  */
 public class Activity implements Serializable {
 
@@ -44,7 +44,6 @@ public class Activity implements Serializable {
      */
     private Integer permission;
     private Integer activityTypeId;
-    private Integer fileId;
     private Integer clubId;
 
 
@@ -112,14 +111,6 @@ public class Activity implements Serializable {
         this.activityTypeId = activityTypeId;
     }
 
-    public Integer getFileId() {
-        return fileId;
-    }
-
-    public void setFileId(Integer fileId) {
-        this.fileId = fileId;
-    }
-
     public Integer getClubId() {
         return clubId;
     }
@@ -139,7 +130,6 @@ public class Activity implements Serializable {
         ", applyTime=" + applyTime +
         ", permission=" + permission +
         ", activityTypeId=" + activityTypeId +
-        ", fileId=" + fileId +
         ", clubId=" + clubId +
         "}";
     }

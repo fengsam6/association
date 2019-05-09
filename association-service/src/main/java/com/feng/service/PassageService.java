@@ -1,7 +1,8 @@
 package com.feng.service;
 
+import com.feng.dto.PassageTypeDto;
+import com.feng.dto.PassageFileDto;
 import com.feng.entity.Passage;
-import com.feng.vo.PassageInfoVo;
 import com.feng.vo.PassagePageVo;
 import com.feng.vo.PassageVo;
 import com.github.pagehelper.PageInfo;
@@ -19,19 +20,17 @@ import java.io.Serializable;
 public interface PassageService {
     PassageVo getTopN(int n, Passage search);
 
-    PageInfo<Passage> getPage(int pageNum, int pageSize, Passage search);
 
-    PageInfo<PassageInfoVo> findPage(int pageNum, int pageSize, Passage search);
+    PageInfo<PassageTypeDto> findPage(int pageNum, int pageSize, Passage search);
 
     PassagePageVo getPageWithTypeList(int pageNum, int pageSize, Integer passageTypeId);
 
-    PassageInfoVo getInfoById(Integer id);
+    PassageFileDto getInfoById(Integer id);
 
-    Passage getById(Integer id);
 
     Passage add(Passage passage);
 
-    PassageInfoVo updateWithId(PassageInfoVo passage);
+    PassageFileDto updateInfoById(PassageFileDto passage);
 
     boolean deleteById(Serializable id);
 }

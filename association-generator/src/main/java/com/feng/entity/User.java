@@ -11,7 +11,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author rf
- * @since 2019-05-05
+ * @since 2019-05-08
  */
 public class User implements Serializable {
 

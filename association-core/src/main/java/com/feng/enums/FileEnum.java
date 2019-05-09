@@ -9,7 +9,10 @@ import lombok.Data;
 public enum FileEnum {
     COMMON_IMG(1, "普通图片"),
     COMMON_FILE(2, "常用文档"),
-    CLUB_FILE(3, "社团文件");
+    CLUB_FILE(3, "社团文件"),
+    CAROUSEL_IMG(4, "常用文档"),
+    PASSAGE_IMG(5, "普通图片"),
+    ACTIVITY_IMG(6, "普通图片");
     private int fileId;
     private String fileType;
 

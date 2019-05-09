@@ -64,8 +64,14 @@ public class Passage implements Serializable {
      */
     private Integer clickNum;
 
-    private Integer fileId;
     private Integer clubId;
 
+    public Passage() {
+    }
 
+    public Passage(@NotNull(message = "文章标题不能为空") String title, @NotNull(message = "文章内容不能为空") String content, @NotNull(message = "文章类型不能为空") Integer passageTypeId) {
+        this.title = title;
+        this.content = content;
+        this.passageTypeId = passageTypeId;
+    }
 }

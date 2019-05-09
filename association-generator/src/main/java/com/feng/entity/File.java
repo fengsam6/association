@@ -11,7 +11,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author rf
- * @since 2019-05-05
+ * @since 2019-05-08
  */
 public class File implements Serializable {
 
@@ -29,6 +29,11 @@ public class File implements Serializable {
     private String filePath;
     private Date createTime;
     private Integer fileTypeId;
+    /**
+     * 关联文章id
+     */
+    private Integer passageId;
+    private Integer activityId;
 
 
     public Integer getId() {
@@ -71,6 +76,22 @@ public class File implements Serializable {
         this.fileTypeId = fileTypeId;
     }
 
+    public Integer getPassageId() {
+        return passageId;
+    }
+
+    public void setPassageId(Integer passageId) {
+        this.passageId = passageId;
+    }
+
+    public Integer getActivityId() {
+        return activityId;
+    }
+
+    public void setActivityId(Integer activityId) {
+        this.activityId = activityId;
+    }
+
     @Override
     public String toString() {
         return "File{" +
@@ -79,6 +100,8 @@ public class File implements Serializable {
         ", filePath=" + filePath +
         ", createTime=" + createTime +
         ", fileTypeId=" + fileTypeId +
+        ", passageId=" + passageId +
+        ", activityId=" + activityId +
         "}";
     }
 }

@@ -29,7 +29,7 @@ private FileService fileService;
 
 
     @GetMapping
-    @ApiOperation("根据条件分页查询所有文件")
+    @ApiOperation("根据条件分页查询     所有文件")
     public ResponseResult list(File search, @RequestParam(defaultValue = "1") int pageNum, @RequestParam(defaultValue = "8") int pageSize) {
         PageInfo<File> filePageInfo = fileService.getPage(pageNum,pageSize,search);
         return ResponseResultUtil.renderSuccess(filePageInfo);
