@@ -17,7 +17,7 @@ public class WebConfigurer extends WebMvcConfigurationSupport {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(loginInterceptor)
-                .addPathPatterns("/**").excludePathPatterns("/users/login","/users/getKaptcha","/logout","/swagger-ui.html");
+                .addPathPatterns("/**").excludePathPatterns("/users/login","/users/getKaptcha","/logout","/swagger-ui.html","/system/frontUrl");
         super.addInterceptors(registry);
     }
 

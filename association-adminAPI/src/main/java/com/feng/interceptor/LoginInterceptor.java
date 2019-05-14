@@ -54,14 +54,6 @@ public class LoginInterceptor implements HandlerInterceptor {
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, @Nullable Exception ex) throws Exception {
     }
 
-    /**
-     * 客户端保存用户登录信息
-     * @param response
-     * @param token
-     */
-    private void saveUserCookie(HttpServletResponse response, String token) {
-        CookieUtil.writeCookie(response, "userToken", token);
-    }
 
     /**
      * 客户端保存获取登录信息

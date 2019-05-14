@@ -22,10 +22,10 @@ public class CookieUtil {
         return null;
     }
 
-    public static void writeCookie(HttpServletResponse response, String cookieName, String value){
+    public static void writeCookie(HttpServletResponse response, String cookieName,int time, String value){
         Cookie cookie = new Cookie(cookieName,value);
         cookie.setPath("/");
-        cookie.setMaxAge(3600);
+        cookie.setMaxAge(time);
         response.addCookie(cookie);
     }
 

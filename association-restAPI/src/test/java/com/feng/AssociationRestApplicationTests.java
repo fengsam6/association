@@ -13,7 +13,7 @@ public class AssociationRestApplicationTests {
 	@Autowired
 	private PassageService passageService;
 
-	@Test
+//	@Test
 	public void get() {
 		passageService.getInfoById(1);
 

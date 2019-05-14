@@ -27,7 +27,7 @@ public class RedisOption {
 
     }
     public boolean set(String key, Object value) {
-       return set(key, value,60*30*24);
+       return set(key, value,60*40);
     }
     public boolean expire(String key, long time) {
         try {

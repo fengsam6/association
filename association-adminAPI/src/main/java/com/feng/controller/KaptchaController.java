@@ -1,6 +1,8 @@
 package com.feng.controller;
 
+import com.feng.util.CookieUtil;
 import com.feng.util.RedisOption;
+import com.feng.util.UUIDUtil;
 import com.google.code.kaptcha.Constants;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import lombok.extern.slf4j.Slf4j;
@@ -52,8 +54,10 @@ public class KaptchaController {
             BufferedImage challenge = defaultKaptcha.createImage(createText);
             ImageIO.write(challenge, "jpg", jpegOutputStream);
             log.info("{}",createText);
+           String uuid = UUIDUtil.getUUID();
 //            httpServletRequest.getSession().setAttribute(Constants.KAPTCHA_SESSION_KEY, createText);
-            redisOption.set(Constants.KAPTCHA_SESSION_KEY, createText,60*5);
+            CookieUtil.writeCookie(httpServletResponse,Constants.KAPTCHA_SESSION_KEY,60,uuid);
+            redisOption.set(uuid, createText,60*5);
         } catch (IllegalArgumentException e) {
             httpServletResponse.sendError(HttpServletResponse.SC_NOT_FOUND);
             return;

@@ -56,6 +56,7 @@ public class UserController {
         User user = userService.getById(id);
         return ResponseResultUtil.renderSuccess(user);
     }
+
     @GetMapping("/getUser")
     @ApiOperation("通过token获取一个用户")
     public ResponseResult getByToken(@RequestParam(defaultValue = "") String token) {
@@ -63,6 +64,7 @@ public class UserController {
         User user = userService.getById(userId);
         return ResponseResultUtil.renderSuccess(user);
     }
+
     @GetMapping
     @ApiOperation("根据条件分页查询所有用户")
     public ResponseResult list(@RequestParam(defaultValue = "1") int pageNum, @RequestParam(defaultValue = "8") int pageSize, User search) {
@@ -101,14 +103,15 @@ public class UserController {
 
     @ApiOperation("用户登录接口")
     @PostMapping("/login")
-    public ResponseResult login(@Valid @RequestBody LoginUserVo userVo, BindingResult bindingResult, HttpServletRequest request,HttpServletResponse response) {
+    public ResponseResult login(@Valid @RequestBody LoginUserVo userVo, BindingResult bindingResult, HttpServletRequest request, HttpServletResponse response) {
         if (bindingResult.hasErrors()) {
             String msg = bindingResult.getFieldError().getDefaultMessage();
             log.error("{}", msg);
             throw new ParamInvalidException(ErroEnum.INVALIDATE_PARAM_EXCEPTION.setMsg(msg));
         }
         String code = userVo.getCode();
-        String katchaCode = (String) redisOption.get(Constants.KAPTCHA_SESSION_KEY);
+        String codeKey = CookieUtil.getCookie(request, Constants.KAPTCHA_SESSION_KEY);
+        String katchaCode = (String) redisOption.get(codeKey);
         log.info("{}", katchaCode);
 
         if (StringUtils.isEmpty(code) || !katchaCode.equals(code.trim())) {

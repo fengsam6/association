@@ -1,6 +1,5 @@
 package com.feng.controller;
 
-import com.feng.conf.FileUploadConf;
 import com.feng.entity.ResponseResult;
 import com.feng.enums.ErroEnum;
 import com.feng.enums.FileEnum;
@@ -9,7 +8,7 @@ import com.feng.service.FileService;
 import com.feng.util.ResponseResultUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,10 +26,8 @@ import java.io.IOException;
 public class FileUploadController {
     @Autowired
     private FileService fileService;
-    @Autowired
-    private FileUploadConf fileUploadConf;
-
-    private String fileSaveBasePath = "F:/fileServer/";
+    @Value("${file.uploadPath}")
+    private String fileSaveBasePath ;
 
     @PostMapping("/upload")
     @ResponseBody

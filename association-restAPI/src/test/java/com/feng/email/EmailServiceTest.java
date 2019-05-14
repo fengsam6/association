@@ -28,6 +28,6 @@ public class EmailServiceTest {
         Context context = new Context();
         context.setVariable("email","111");
        String content = templateEngine.process("emailTemplate",context);
-        mailService.sendSimpleMail("激活邮箱", content, "18327853685@163.com");
+//        mailService.sendSimpleMail("激活邮箱", content, "18327853685@163.com");
     }
 }

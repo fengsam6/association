@@ -21,7 +21,7 @@ public class PassageDaoTest {
 
     @Test
     public void get() {
-     PassageFileDto passage = passageService.getInfoById(46);
-     System.out.println(passage.toString());
+//     PassageFileDto passage = passageService.getInfoById(46);
+//     System.out.println(passage.toString());
     }
 }

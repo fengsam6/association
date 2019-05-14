@@ -21,15 +21,15 @@ private FileService fileService;
 	@Test
 	public void contextLoads() {
 		File file = new File("test.txt","/test/",1);
-	int result =	fileService.save(file);
-	System.out.println(result);
+//	int result =	fileService.save(file);
+//	System.out.println(result);
 	System.out.println(file.toString());
 	}
 
 	@Test
 	public void testAddPassage(){
 		Passage passage =new Passage("test","content",3);
-	passageService.add(passage);
+//	passageService.add(passage);
 //		System.out.println(result);
 		System.out.println(passage.toString());
 	}
