@@ -17,3 +17,5 @@ out/
 # gitbook
 _book
 tmp
+
+application-test.properties

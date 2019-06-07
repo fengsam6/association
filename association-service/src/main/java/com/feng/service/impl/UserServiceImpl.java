@@ -14,8 +14,10 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -58,6 +60,16 @@ public class UserServiceImpl implements UserService {
         EntityWrapper<User> userEntityWrapper = new EntityWrapper<>();
         userEntityWrapper.eq("account", account);
         return userMapper.selectList(userEntityWrapper);
+    }
+
+    @Override
+    public User getOneByAccount(String account) {
+        List<User> userList = getByAccount(account);
+        if (CollectionUtils.isEmpty(userList)) {
+            return null;
+        } else {
+          return   userList.get(0);
+        }
     }
 
     @Override

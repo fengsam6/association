@@ -30,5 +30,7 @@ public interface UserService{
 
    void  DeleteById(Serializable id);
 
+    User getOneByAccount(String account);
+
     User register(User user,String rePassWord);
 }
