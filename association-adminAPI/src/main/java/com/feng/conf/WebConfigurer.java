@@ -10,7 +10,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 /**
  * Created by rf on 2019/4/30.
  */
-//@Configuration
+@Configuration
 public class WebConfigurer extends WebMvcConfigurationSupport {
     @Autowired
     private LoginInterceptor loginInterceptor;

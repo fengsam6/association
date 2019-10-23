@@ -1,31 +1,24 @@
 package com.feng.controller;
 
 
-import com.feng.constants.AppConstant;
 import com.feng.entity.ResponseResult;
 import com.feng.entity.User;
 import com.feng.enums.ErroEnum;
-import com.feng.exception.AuthenticationFailException;
 import com.feng.exception.BusinessException;
 import com.feng.exception.ParamInvalidException;
 import com.feng.service.UserService;
+import com.feng.service.UserSessionService;
 import com.feng.util.CookieUtil;
-import com.feng.util.RedisOption;
+import com.feng.service.RedisOperatorService;
 import com.feng.util.ResponseResultUtil;
 import com.feng.util.UUIDUtil;
+import com.feng.util.UserTokenUtils;
 import com.feng.vo.LoginUserVo;
 import com.github.pagehelper.PageInfo;
 import com.google.code.kaptcha.Constants;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.security.SecurityUtil;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.authc.UnknownAccountException;
-import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.subject.Subject;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
@@ -33,7 +26,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 /**
@@ -53,9 +45,9 @@ public class UserController {
     @Autowired
     private UserService userService;
     @Autowired
-    private RedisOption redisOption;
+    private RedisOperatorService redisOperatorService;
     @Autowired
-    private AppConstant appConstant;
+    private UserSessionService userSessionService;
 
     @GetMapping("/{id}")
     @ApiOperation("通过id获取一个用户")
@@ -67,7 +59,7 @@ public class UserController {
     @GetMapping("/getUser")
     @ApiOperation("通过token获取一个用户")
     public ResponseResult getByToken(@RequestParam(defaultValue = "") String token) {
-        Integer userId = (Integer) redisOption.get(token);
+        Integer userId = userSessionService.getUserId(token);
         User user = userService.getById(userId);
         return ResponseResultUtil.renderSuccess(user);
     }
@@ -118,7 +110,7 @@ public class UserController {
         }
         String code = userVo.getCode();
         String codeKey = CookieUtil.getCookie(request, Constants.KAPTCHA_SESSION_KEY);
-        String katchaCode = (String) redisOption.get(codeKey);
+        String katchaCode = (String) redisOperatorService.getValue(codeKey);
         log.info("{}", katchaCode);
 
         if (StringUtils.isEmpty(code) || !katchaCode.equals(code.trim())) {
@@ -127,53 +119,25 @@ public class UserController {
 
         User loginUser = userService.login(userVo);
         String token = UUIDUtil.getUUID();
+        //登录成功
         if (loginUser != null) {
-            redisOption.set(token, loginUser.getId());
+            userSessionService.saveUserSession(token, loginUser.getId());
         }
 
         return ResponseResultUtil.renderSuccess(token);
     }
 
-    @ApiOperation("用户登录接口")
-    @PostMapping("/login2")
-    public ResponseResult login2(@Valid @RequestBody LoginUserVo userVo, BindingResult bindingResult, HttpServletRequest request, HttpServletResponse response) {
-        if (bindingResult.hasErrors()) {
-            String msg = bindingResult.getFieldError().getDefaultMessage();
-            log.error("{}", msg);
-            throw new ParamInvalidException(ErroEnum.INVALIDATE_PARAM_EXCEPTION.setMsg(msg));
-        }
-        String code = userVo.getCode();
-        String codeKey = CookieUtil.getCookie(request, Constants.KAPTCHA_SESSION_KEY);
-        String katchaCode = (String) redisOption.get(codeKey);
-        log.info("{}", katchaCode);
-
-        if (StringUtils.isEmpty(code) || !katchaCode.equals(code.trim())) {
-            throw new BusinessException(ErroEnum.USER_CODE_ERROR);
-        }
-        Subject subject = SecurityUtils.getSubject();
-        AuthenticationToken token = new UsernamePasswordToken(userVo.getAccount(), userVo.getPassword());
-
-        try {
-            subject.login(token);
-        } catch (UnknownAccountException e) {
-            throw new BusinessException(ErroEnum.USER_NAME_ERROR);
-        }catch (AuthenticationFailException e){
-            throw new BusinessException(ErroEnum.USER_PASSWORD_ERROR);
-        }
-        return ResponseResultUtil.renderSuccess(token);
-    }
 
     /**
      * 注销登录
      *
-     * @param session
      * @return
      */
     @GetMapping("/logout")
-    @ApiOperation("用户登录接口")
-    public ResponseResult logout(HttpSession session) {
-        session.invalidate();//使Session变成无效，及用户退出
-        SecurityUtils.getSubject().logout();
+    @ApiOperation("用户退出接口")
+    public ResponseResult logout(HttpServletRequest request) {
+       String token = UserTokenUtils.getUserToken(request);
+        userSessionService.removeUserSession(token);
         return ResponseResultUtil.renderSuccess("成功退出系统！");
     }
 

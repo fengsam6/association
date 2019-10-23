@@ -1,7 +1,7 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : local
+Source Server         : localhost
 Source Server Version : 50645
 Source Host           : localhost:3306
 Source Database       : club
@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50645
 File Encoding         : 65001
 
-Date: 2019-10-23 13:29:00
+Date: 2019-10-23 22:44:15
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -295,8 +295,8 @@ CREATE TABLE `user` (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('1', 'sm', '', '1', 'a', '12@qq.com', '123456', '0', '2019-04-24 20:57:19', '1', '');
-INSERT INTO `user` VALUES ('2', 'admin', '', '1', 'a', 'admin@qq.com', '123456', '0', '2019-10-23 13:09:16', '0', '');
+INSERT INTO `user` VALUES ('1', 'sm', '', '1', 'a', '123456@qq.com', '123456', '0', '2019-10-23 21:25:47', '1', '');
+INSERT INTO `user` VALUES ('2', 'admin', '', '1', 'a', 'admin@163.com', '123456', '0', '2019-10-23 21:25:39', '0', '');
 INSERT INTO `user` VALUES ('10', 'test1', '', '0', '', 'test@163.com', '123456', '0', '2019-10-23 13:08:57', '0', null);
 
 -- ----------------------------
