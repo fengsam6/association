@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : 127.0.0.1
-Source Server Version : 50558
-Source Host           : 127.0.0.1:3306
+Source Server         : local
+Source Server Version : 50645
+Source Host           : localhost:3306
 Source Database       : club
 
 Target Server Type    : MYSQL
-Target Server Version : 50558
+Target Server Version : 50645
 File Encoding         : 65001
 
-Date: 2019-05-09 16:18:20
+Date: 2019-10-23 13:29:00
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -296,16 +296,8 @@ CREATE TABLE `user` (
 -- Records of user
 -- ----------------------------
 INSERT INTO `user` VALUES ('1', 'sm', '', '1', 'a', '12@qq.com', '123456', '0', '2019-04-24 20:57:19', '1', '');
-INSERT INTO `user` VALUES ('2', 'admin', '', '1', 'a', 'tim@qq.com', '123456', '0', '2019-04-24 20:57:27', '0', '');
-INSERT INTO `user` VALUES ('10', 'test1', '', '0', '', '18477853685@163.com', '123456', '0', '2019-04-27 16:27:48', '0', null);
-INSERT INTO `user` VALUES ('11', 'test2', '', '0', '', '18347853685@163.com', '123456', '0', '2019-04-27 16:27:49', '1', null);
-INSERT INTO `user` VALUES ('12', 'test3', '', '1', '', '17427853685@163.com', '123456', '0', '2019-04-27 16:27:54', '0', null);
-INSERT INTO `user` VALUES ('13', 'test3', '', '1', '', '16377853685@163.com', '123456', '0', '2019-04-27 16:27:56', '0', null);
-INSERT INTO `user` VALUES ('14', 'test3', '', '1', '', '18752853685@163.com', '123456', '0', '2019-04-27 16:27:57', '1', null);
-INSERT INTO `user` VALUES ('15', 'test3', '', '1', '', '183773853685@163.com', '123456', '0', '2019-04-27 16:27:59', '0', null);
-INSERT INTO `user` VALUES ('16', 'test3', '', '1', '', '18377853685@163.com', '123456', '0', '2019-04-27 16:28:00', '1', null);
-INSERT INTO `user` VALUES ('17', 'test3', '', '1', '', '14327853685@163.com', '123456', '0', '2019-04-27 16:28:02', '1', null);
-INSERT INTO `user` VALUES ('18', 'test3', '', '0', '', '18327853685@163.com', '123456', '0', '2019-04-27 16:28:04', '0', null);
+INSERT INTO `user` VALUES ('2', 'admin', '', '1', 'a', 'admin@qq.com', '123456', '0', '2019-10-23 13:09:16', '0', '');
+INSERT INTO `user` VALUES ('10', 'test1', '', '0', '', 'test@163.com', '123456', '0', '2019-10-23 13:08:57', '0', null);
 
 -- ----------------------------
 -- Table structure for user_club

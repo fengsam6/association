@@ -33,7 +33,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
-        String token = (String) request.getParameter("token");
+        String token = request.getParameter("token");
         if(token==null){
             token = getUserCookie(request);
         }
