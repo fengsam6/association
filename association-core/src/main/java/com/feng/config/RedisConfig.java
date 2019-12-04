@@ -1,4 +1,4 @@
-package com.feng.conf;
+package com.feng.config;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
@@ -15,7 +15,7 @@ public class RedisConfig extends CachingConfigurerSupport {
 
 
     /**
-     * retemplate相关配置
+     * RedisTemplate相关配置
      * @param factory
      * @return
      */

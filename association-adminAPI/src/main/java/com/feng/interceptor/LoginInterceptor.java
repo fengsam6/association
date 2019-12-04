@@ -30,8 +30,10 @@ public class LoginInterceptor implements HandlerInterceptor {
         String token = UserTokenUtils.getUserToken(request);
 
         if (!StringUtils.isEmpty(token)) {
+            //判断用户token是否有效
             boolean exist = userSessionService.isUserTokenExist(token);
             if (exist) {
+                userSessionService.updateUserSession(token);
                 return true;
             }
         }
@@ -41,11 +43,7 @@ public class LoginInterceptor implements HandlerInterceptor {
     }
 
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, @Nullable ModelAndView modelAndView) throws Exception {
-        /**
-         * 更新用户session时间
-         */
-        String token = UserTokenUtils.getUserToken(request);
-        userSessionService.updateUserSession(token);
+
     }
 
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, @Nullable Exception ex) throws Exception {
