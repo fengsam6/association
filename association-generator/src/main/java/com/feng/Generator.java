@@ -14,7 +14,7 @@ import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 public class Generator {
     public static void main(String[] args) {
         //指定包名
-        String packageName = "com.feng";
+        String packageName = "com.feng.genTest";
         //user -> UserService, 设置成true: user -> IUserService
         boolean serviceNameStartWithI = false;
         //指定生成的表名
@@ -150,7 +150,7 @@ public class Generator {
         return new DataSourceConfig().setDbType(DbType.MYSQL)
                 .setUrl(dbUrl)
                 .setUsername("root")
-                .setPassword("123456")
+                .setPassword("")
                 .setDriverName("com.mysql.jdbc.Driver");
     }
 

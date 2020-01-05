@@ -1,20 +1,21 @@
-# association
+# 一.association
 
-#### 介绍
+## 1.介绍
 大学毕业论文项目。基于前后端分离，使用Spring Boot、vue等技术开发社团管理系统，觉得写得不错，可以收藏该项目。系统功能如下图所示。![](系统说明/系统功能.png)
 
-#### 软件架构
+## 2.软件架构
 软件架构说明
 
 1. 后端使用Spring boot、mybatis、redis、mybatisPlus，系统架构如下图所示
 
 ![](系统说明/系统架构.png)
 
-### 后端简介
+## 3. 后端简介
 
 1. 系统后端多模块开发，后端码云地址：<https://gitee.com/fengsam618/association>
 
-* 模块Association-generation支持代码生成，基于MyBatis、MyBatis-Plus代码生成，运行该模块，能够生成Dao层、service层通用代码。
+* 模块Association-generation支持代码生成，基于MyBatis-Plus代码生成器，运行该模块main方法Generator，能够生成Dao层、service层通用代码，可以提高后端开发效率。
+* association-core 提供一些常用工具类，spring全局异常配置、定义后端rest接口返回json数据格式、redis工具类配置，springboot跨域处理。
 * 模块Association-API调用模块Association-service，提供前台访问RESTful接口。
 * 模块Association-admin调用模块Association-service，提供后台访问RESTful接口。
 
@@ -22,7 +23,7 @@
 
 ![](系统说明/后端多模块开发.png)
 
-### 前端简介
+## 4. 前端简介
 
 * 前台页面单独开发一个工程vue-club，所有前台页面代码都写在vue-club中.
 
@@ -32,7 +33,7 @@
 
 ![](系统说明/后台clu-admin.png)
 
-### 系统运行效果
+## 5. 系统运行效果
 
 ![](运行效果图/club.gif)
 
@@ -58,16 +59,18 @@
 
 
 
-### 项目运行准备工作
+## 6. 系统启动
 
 assosiation-clubt提供后台访问的restful接口。
 
-1. 启动nginx服务器，系统使用nginx作为文件服务器。
-2. 启动MySQL、Redis数据库
-3. 打开idea，启动assosiation-rest、assosiation-admin两个模块，assosiation-rest提供前台访问的restful接口， assosiation-admin提供后台访问的restful接口。
-4. 打开HbuilderX，使用npm run dev运行前台两个项目vue-club、club-admin。（编译很慢，需要提前编译）
+1. 系统软件依赖。后端需要安装java、maven、mysql、redis。
+2. 启动检查数据库MySQL、Redis是否启动，执行根目录sql脚本。
+3. 从github（）下载代码，修改mysql、redis数据库连接用户名、密码。
+4. 进入项目根目录，在cmd窗口执行mvn package，将所有模块打包成jar，可以参考deployment文件夹
+5. 打开idea，启动assosiation-rest、assosiation-admin两个模块，assosiation-rest提供前台访问的restful接口， assosiation-admin提供后台访问的restful接口。
+6. 打开HbuilderX，使用npm run dev运行前台两个项目vue-club、club-admin。（编译很慢，需要提前编译）
 
-### 项目运行展示
+## 7. 浏览器访问
 
 1. http://127.0.0.1:80/>   本地运行，系统前台访问页面
 2. http://127.0.0.1:8080/>   本地运行，系统后台访问页面
@@ -78,9 +81,9 @@ assosiation-clubt提供后台访问的restful接口。
 
 
 
-### 项目创新
+##  8.系统设计
 
-1. 论文采用的技术都是目前很流行技术，企业中常用的技术。
+1. 系统模块设计及技术选择。
 
    > 后端使用maven构建五个模块模块，使用Spring Boot 、springMVC、mybatis、mybatisPlus、pageHelper、Redis等技术开发。使用 swagger UI生成后端接口API文档，可以直接在浏览器浏览。
    >
@@ -104,18 +107,11 @@ assosiation-clubt提供后台访问的restful接口。
 
 
 
-### 本地nginx部署测试
+## 9.建议nginx部署测试
 
 1. maven将后端接口打包成jar，java -jar可以运行后端springBoot jar包，打包后端部署测试，提供前台访问页面接口。
 
 2. 本地nginx部署，启动测试，http://127.0.0.1:8011/>   前台访问页面，页面目前只适配电脑，
 
    http://127.0.0.1:8012/>   后台访问页面，页面目前只适配电脑
-
-### 服务器测试版   (系统代码已经部署个人私有linux服务器上)
-
-1. <http://118.89.228.250:8011/>   前台访问页面，页面目前只适配电脑
-2. <http://118.89.228.250:8012/ >   后台访问页面，页面目前只适配电脑，系统登录账号test@163.com 对应密码123456 ；admin@163.com  对应密码123456 
-3. <http://118.89.228.250:8081/club/api/swagger-ui.html>   前台接口访问文档
-4. <http://118.89.228.250:8082/club/admin/swagger-ui.html>  后台接口访问文档，需要先登录
 

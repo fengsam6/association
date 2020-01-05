@@ -12,6 +12,9 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.NoHandlerFoundException;
+
+import javax.servlet.http.HttpServletRequest;
 
 @RestControllerAdvice
 @Slf4j
@@ -63,8 +66,13 @@ public class GlobalExceptionHandler {
 
 
     @ExceptionHandler(Exception.class)
-    public ResponseResult exceptionHandler(Exception e) {
+    public ResponseResult exceptionHandler(Exception e, HttpServletRequest request) {
         log.error("----------{}---- ----",e.getMessage());
+        if (e instanceof NoHandlerFoundException) {
+            String errorMsg = String.format("请求url %s不存在！",request.getRequestURI());
+            log.error(errorMsg);
+            return ResponseResultUtil.renderError(ErrorEnum.PAGE_NOT_FOUND.setMsg(errorMsg));
+        }
         e.printStackTrace();
         return ResponseResultUtil.renderError(ErrorEnum.UN_KNOW_EXCEPTION);
     }

@@ -8,9 +8,9 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>association-rest</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>association-rest</name>
+    <artifactId>club</artifactId>
+    <version>1.0.0</version>
+    <name>club</name>
     <dependencies>
         <dependency>
             <groupId>com.feng</groupId>

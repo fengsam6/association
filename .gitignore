@@ -17,5 +17,4 @@ out/
 # gitbook
 _book
 tmp
-
-application-test.properties
+/association-generator/src/main/java/com/feng/genTest/

@@ -14,6 +14,7 @@ public enum ErrorEnum implements CommonError {
     USER_CODE_ERROR(3004, "验证码错误！"),
     USER_NOT_LOGIN(3005, "请先登录！"),
     FILE_NULL(4001,"选择上传文件"),
+    PAGE_NOT_FOUND(404,"页面不存在"),
     FILE_UPLOAD_FAIL(4002,"上传文件失败"),
     FILE_FORMAT_ERROR(4003,"文件格式错误"),
     DOWNLOAD_FILE_FAIL(4007,"下载文件失败"),
