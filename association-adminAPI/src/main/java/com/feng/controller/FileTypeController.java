@@ -22,7 +22,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/fileTypes")
-@Api("社团管理系统后台文件类型管理接口")
+@Api(value = "社团管理系统后台文件类型管理接口",tags = "社团管理系统后台文件类型管理接口")
 public class FileTypeController {
     @Autowired
     private FileTypeService fileTypeService;

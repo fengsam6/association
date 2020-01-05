@@ -1,6 +1,6 @@
 package com.feng.exception;
 
-import com.feng.enums.ErroEnum;
+import com.feng.enums.ErrorEnum;
 import com.feng.error.CommonError;
 
 /**
@@ -13,8 +13,8 @@ public class AuthenticationFailException extends RuntimeException implements Com
         this.code = code;
         this.msg = msg;
     }
-    public AuthenticationFailException(ErroEnum erroEnum) {
-        this(erroEnum.getCode(), erroEnum.getMsg());
+    public AuthenticationFailException(ErrorEnum errorEnum) {
+        this(errorEnum.getCode(), errorEnum.getMsg());
     }
     @Override
     public int getCode() {

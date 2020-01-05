@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @CrossOrigin
 @RequestMapping("/passages")
-@Api("社团管理系统前台文章接口")
+@Api(tags = "社团管理系统前台文章接口")
 public class PassageController {
     @Autowired
     private PassageService passageService;

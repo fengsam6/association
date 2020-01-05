@@ -1,11 +1,12 @@
 package com.feng.controller;
 
 import com.feng.entity.ResponseResult;
-import com.feng.enums.ErroEnum;
+import com.feng.enums.ErrorEnum;
 import com.feng.enums.FileEnum;
 import com.feng.exception.BusinessException;
 import com.feng.service.FileService;
 import com.feng.util.ResponseResultUtil;
+import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,6 +24,7 @@ import java.io.IOException;
 @RestController
 @RequestMapping("/files")
 @Slf4j
+@Api(tags = "文件上传接口")
 public class FileUploadController {
     @Autowired
     private FileService fileService;
@@ -48,7 +50,7 @@ public class FileUploadController {
         } catch (IOException e) {
             log.error(e.toString(), e);
         }
-        return ResponseResultUtil.renderError(ErroEnum.FALE_UPLOAD_FAIL);
+        return ResponseResultUtil.renderError(ErrorEnum.FILE_UPLOAD_FAIL);
     }
 
     @PostMapping("/uploadImg")
@@ -73,7 +75,7 @@ public class FileUploadController {
         } catch (IOException e) {
             log.error(e.toString(), e);
         }
-        return ResponseResultUtil.renderError(ErroEnum.FALE_UPLOAD_FAIL);
+        return ResponseResultUtil.renderError(ErrorEnum.FILE_UPLOAD_FAIL);
     }
     @PostMapping("/uploadCarouselImg")
     @ResponseBody
@@ -93,12 +95,12 @@ public class FileUploadController {
         } catch (IOException e) {
             log.error(e.toString(), e);
         }
-        return ResponseResultUtil.renderError(ErroEnum.FALE_UPLOAD_FAIL);
+        return ResponseResultUtil.renderError(ErrorEnum.FILE_UPLOAD_FAIL);
     }
     private void checkFileExt(MultipartFile file, String fileExt[], String msg) {
         boolean checkResultError = true;
         if (file.isEmpty()) {
-            throw new BusinessException(ErroEnum.FILE_NULL);
+            throw new BusinessException(ErrorEnum.FILE_NULL);
         }
 
         String fileName = file.getOriginalFilename();
@@ -116,7 +118,7 @@ public class FileUploadController {
 
 
         if (checkResultError) {
-            throw new BusinessException(ErroEnum.FILE_FORMAT_ERROR.setMsg(msg));
+            throw new BusinessException(ErrorEnum.FILE_FORMAT_ERROR.setMsg(msg));
         }
     }
 

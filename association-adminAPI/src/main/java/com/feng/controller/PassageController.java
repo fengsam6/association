@@ -5,7 +5,7 @@ import com.feng.dto.PassageTypeDto;
 import com.feng.dto.PassageFileDto;
 import com.feng.entity.Passage;
 import com.feng.entity.ResponseResult;
-import com.feng.enums.ErroEnum;
+import com.feng.enums.ErrorEnum;
 import com.feng.exception.ParamInvalidException;
 import com.feng.service.PassageService;
 import com.feng.util.ResponseResultUtil;
@@ -29,7 +29,7 @@ import javax.validation.Valid;
 @RestController
 @CrossOrigin
 @RequestMapping("/passages")
-@Api("社团管理系统后台文章管理接口")
+@Api(value = "社团管理系统后台文章管理接口",tags = "社团管理系统后台文章管理接口")
 public class PassageController {
     @Autowired
     private PassageService passageService;
@@ -60,7 +60,7 @@ public class PassageController {
     public ResponseResult add(@Valid @RequestBody Passage passage, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             String msg = bindingResult.getFieldError().getDefaultMessage();
-            throw new ParamInvalidException(ErroEnum.INVALIDATE_PARAM_EXCEPTION.setMsg(msg));
+            throw new ParamInvalidException(ErrorEnum.INVALIDATE_PARAM_EXCEPTION.setMsg(msg));
         }
         passageService.add(passage);
         System.out.println(passage.getId());
@@ -72,7 +72,7 @@ public class PassageController {
     public ResponseResult update(@RequestBody @Valid PassageFileDto passage, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             String msg = bindingResult.getFieldError().getDefaultMessage();
-            throw new ParamInvalidException(ErroEnum.INVALIDATE_PARAM_EXCEPTION.setMsg(msg));
+            throw new ParamInvalidException(ErrorEnum.INVALIDATE_PARAM_EXCEPTION.setMsg(msg));
         }
         passageService.updateInfoById(passage);
         return ResponseResultUtil.renderSuccess("更新文章成功");

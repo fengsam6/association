@@ -3,7 +3,7 @@ package com.feng.controller;
 
 import com.feng.entity.ResponseResult;
 import com.feng.entity.User;
-import com.feng.enums.ErroEnum;
+import com.feng.enums.ErrorEnum;
 import com.feng.exception.BusinessException;
 import com.feng.exception.ParamInvalidException;
 import com.feng.service.UserService;
@@ -40,7 +40,7 @@ import javax.validation.Valid;
 @RequestMapping("/users")
 @Slf4j
 @CrossOrigin(allowCredentials = "true")
-@Api("社团管理系统后台用户管理接口")
+@Api(value = "社团管理系统后台用户管理接口",tags = "社团管理系统后台用户管理接口")
 public class UserController {
     @Autowired
     private UserService userService;
@@ -83,7 +83,7 @@ public class UserController {
     public ResponseResult add(@Valid @RequestBody User user, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             String msg = bindingResult.getFieldError().getDefaultMessage();
-            throw new ParamInvalidException(ErroEnum.INVALIDATE_PARAM_EXCEPTION.setMsg(msg));
+            throw new ParamInvalidException(ErrorEnum.INVALIDATE_PARAM_EXCEPTION.setMsg(msg));
         }
         userService.add(user);
         return ResponseResultUtil.renderSuccess("添加用户成功");
@@ -94,7 +94,7 @@ public class UserController {
     public ResponseResult update(@RequestBody @Valid User user, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             String msg = bindingResult.getFieldError().getDefaultMessage();
-            throw new ParamInvalidException(ErroEnum.INVALIDATE_PARAM_EXCEPTION.setMsg(msg));
+            throw new ParamInvalidException(ErrorEnum.INVALIDATE_PARAM_EXCEPTION.setMsg(msg));
         }
         userService.updateById(user);
         return ResponseResultUtil.renderSuccess("更新用户成功");
@@ -106,7 +106,7 @@ public class UserController {
         if (bindingResult.hasErrors()) {
             String msg = bindingResult.getFieldError().getDefaultMessage();
             log.error("{}", msg);
-            throw new ParamInvalidException(ErroEnum.INVALIDATE_PARAM_EXCEPTION.setMsg(msg));
+            throw new ParamInvalidException(ErrorEnum.INVALIDATE_PARAM_EXCEPTION.setMsg(msg));
         }
         String code = userVo.getCode();
         String codeKey = CookieUtil.getCookie(request, Constants.KAPTCHA_SESSION_KEY);
@@ -114,7 +114,7 @@ public class UserController {
         log.info("{}", katchaCode);
 
         if (StringUtils.isEmpty(code) || !katchaCode.equals(code.trim())) {
-            throw new BusinessException(ErroEnum.USER_CODE_ERROR);
+            throw new BusinessException(ErrorEnum.USER_CODE_ERROR);
         }
 
         User loginUser = userService.login(userVo);

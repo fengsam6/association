@@ -5,7 +5,7 @@ import com.feng.dto.ActivityFileDto;
 import com.feng.dto.ActivityTypeDto;
 import com.feng.entity.Activity;
 import com.feng.entity.ResponseResult;
-import com.feng.enums.ErroEnum;
+import com.feng.enums.ErrorEnum;
 import com.feng.exception.ParamInvalidException;
 import com.feng.service.ActivityService;
 import com.feng.util.ResponseResultUtil;
@@ -29,19 +29,19 @@ import javax.validation.Valid;
 @RestController
 @CrossOrigin
 @RequestMapping("/activities")
-@Api("社团管理系统后台活动管理接口")
+@Api(tags  = "社团管理系统后台活动管理接口",value = "社团管理系统后台活动管理接口")
 public class ActivityController {
     @Autowired
     private ActivityService activityService;
 
-    @ApiOperation("通过id获取一个活动")
+    @ApiOperation(value = "通过id获取一个活动", notes = "通过id获取一个活动")
     @GetMapping("/{id}")
     public ResponseResult getById(@PathVariable("id") Integer id) {
         ActivityFileDto activity = activityService.getInfoById(id);
         return ResponseResultUtil.renderSuccess(activity);
     }
 
-    @ApiOperation("根据条件分页查询所有活动")
+    @ApiOperation(value = "根据条件分页查询所有活动",notes = "根据条件分页查询所有活动")
     @GetMapping
     public ResponseResult list(@RequestParam(defaultValue = "1") int pageNum, @RequestParam(defaultValue = "8") int pageSize, Activity search) {
         PageInfo<ActivityTypeDto> activityPageInfo = activityService.getPage(pageNum, pageSize, search);
@@ -49,29 +49,29 @@ public class ActivityController {
     }
 
     @DeleteMapping("/{id}")
-    @ApiOperation("通过id删除一个活动")
+    @ApiOperation(value = "通过id删除一个活动", notes = "通过id删除一个活动")
     public ResponseResult delete(@PathVariable("id") Integer id) {
         activityService.deleteById(id);
         return ResponseResultUtil.renderSuccess(id);
     }
 
     @PostMapping
-    @ApiOperation("添加一个活动")
+    @ApiOperation(value = "添加一个活动", notes = "添加一个活动")
     public ResponseResult add(@Valid @RequestBody Activity activity, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             String msg = bindingResult.getFieldError().getDefaultMessage();
-            throw new ParamInvalidException(ErroEnum.INVALIDATE_PARAM_EXCEPTION.setMsg(msg));
+            throw new ParamInvalidException(ErrorEnum.INVALIDATE_PARAM_EXCEPTION.setMsg(msg));
         }
         activityService.add(activity);
             return ResponseResultUtil.renderSuccess(activity.getId());
     }
 
     @PutMapping
-    @ApiOperation("通过id更新一个活动")
+    @ApiOperation(value = "通过id更新一个活动",notes="通过id更新一个活动")
     public ResponseResult update(@RequestBody @Valid ActivityFileDto activity, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             String msg = bindingResult.getFieldError().getDefaultMessage();
-            throw new ParamInvalidException(ErroEnum.INVALIDATE_PARAM_EXCEPTION.setMsg(msg));
+            throw new ParamInvalidException(ErrorEnum.INVALIDATE_PARAM_EXCEPTION.setMsg(msg));
         }
         activityService.updateWithId(activity);
         return ResponseResultUtil.renderSuccess("更新活动成功");

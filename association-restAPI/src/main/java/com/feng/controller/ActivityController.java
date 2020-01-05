@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @CrossOrigin
 @RequestMapping("/activities")
-@Api("活动管理系统前台文章接口")
+@Api(tags = "活动管理系统前台文章接口")
 public class ActivityController {
     @Autowired
 private ActivityService activityService;

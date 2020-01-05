@@ -3,7 +3,7 @@ package com.feng.controller;
 
 import com.feng.entity.Club;
 import com.feng.entity.ResponseResult;
-import com.feng.enums.ErroEnum;
+import com.feng.enums.ErrorEnum;
 import com.feng.exception.ParamInvalidException;
 import com.feng.service.ClubService;
 import com.feng.util.ResponseResultUtil;
@@ -28,7 +28,7 @@ import javax.validation.Valid;
 @RestController
 @CrossOrigin
 @RequestMapping("/clubs")
-@Api("社团管理系统后台文章管理接口")
+@Api(value = "社团管理系统后台文章管理接口",tags = "社团管理系统后台文章管理接口")
 public class ClubController {
     @Autowired
     private ClubService clubService;
@@ -59,7 +59,7 @@ public class ClubController {
     public ResponseResult add(@Valid @RequestBody Club club, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             String msg = bindingResult.getFieldError().getDefaultMessage();
-            throw new ParamInvalidException(ErroEnum.INVALIDATE_PARAM_EXCEPTION.setMsg(msg));
+            throw new ParamInvalidException(ErrorEnum.INVALIDATE_PARAM_EXCEPTION.setMsg(msg));
         }
         clubService.add(club);
         return ResponseResultUtil.renderSuccess("添加社团成功");
@@ -70,7 +70,7 @@ public class ClubController {
     public ResponseResult update(@RequestBody @Valid Club club, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             String msg = bindingResult.getFieldError().getDefaultMessage();
-            throw new ParamInvalidException(ErroEnum.INVALIDATE_PARAM_EXCEPTION.setMsg(msg));
+            throw new ParamInvalidException(ErrorEnum.INVALIDATE_PARAM_EXCEPTION.setMsg(msg));
         }
         clubService.updateWithId(club);
         return ResponseResultUtil.renderSuccess("更新社团成功");

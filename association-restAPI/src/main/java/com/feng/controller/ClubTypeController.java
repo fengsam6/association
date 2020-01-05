@@ -5,6 +5,7 @@ import com.feng.entity.ClubType;
 import com.feng.entity.ResponseResult;
 import com.feng.service.ClubTypeService;
 import com.feng.util.ResponseResultUtil;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +24,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/clubTypes")
+@Api(tags = "社团管理系统前台社团类型接口")
 public class ClubTypeController {
     @Autowired
     private ClubTypeService clubTypeService;

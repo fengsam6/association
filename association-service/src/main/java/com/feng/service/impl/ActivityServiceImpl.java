@@ -10,7 +10,7 @@ import com.feng.dto.ActivityFileDto;
 import com.feng.dto.ActivityTypeDto;
 import com.feng.entity.Activity;
 import com.feng.entity.ActivityType;
-import com.feng.enums.ErroEnum;
+import com.feng.enums.ErrorEnum;
 import com.feng.exception.BusinessException;
 import com.feng.service.ActivityService;
 import com.feng.vo.ActivityPageVo;
@@ -83,7 +83,7 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity> i
     public ActivityFileDto getInfoById(Integer id) {
         ActivityFileDto activityFileDto = activityMapper.getInfoById(id);
         if (activityFileDto == null) {
-            throw new BusinessException(ErroEnum.BUSINESS_EXCEPTION.setMsg("活动不存在"));
+            throw new BusinessException(ErrorEnum.BUSINESS_EXCEPTION.setMsg("活动不存在"));
         }
 
 

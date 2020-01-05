@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.feng.dao.UserMapper;
 import com.feng.entity.User;
-import com.feng.enums.ErroEnum;
+import com.feng.enums.ErrorEnum;
 import com.feng.exception.BusinessException;
 import com.feng.service.UserService;
 import com.github.pagehelper.PageHelper;
@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -46,11 +45,11 @@ public class UserServiceImpl implements UserService {
     public User login(User user) {
         List<User> userList = getByAccount(user.getAccount());
         if (userList.isEmpty()) {
-            throw new BusinessException(ErroEnum.USER_NAME_ERROR);
+            throw new BusinessException(ErrorEnum.USER_NAME_ERROR);
         }
         User loginUser = userList.get(0);
         if (!loginUser.getPassword().equals(user.getPassword())) {
-            throw new BusinessException(ErroEnum.USER_PASSWORD_ERROR);
+            throw new BusinessException(ErrorEnum.USER_PASSWORD_ERROR);
         }
         return loginUser;
     }
@@ -90,7 +89,7 @@ public class UserServiceImpl implements UserService {
     public User getById(Serializable id) {
         User user = userMapper.selectById(id);
         if (user == null) {
-            throw new BusinessException(ErroEnum.BUSINESS_EXCEPTION.setMsg("该用户不存在"));
+            throw new BusinessException(ErrorEnum.BUSINESS_EXCEPTION.setMsg("该用户不存在"));
         }
         return user;
     }
@@ -108,13 +107,13 @@ public class UserServiceImpl implements UserService {
         if (!userList.isEmpty()) {
             User user1 = userList.get(0);
             if (user1.getActive()) {
-                throw new BusinessException(ErroEnum.BUSINESS_EXCEPTION.setMsg("邮箱已经激活，请直接登录"));
+                throw new BusinessException(ErrorEnum.BUSINESS_EXCEPTION.setMsg("邮箱已经激活，请直接登录"));
             } else {
-                throw new BusinessException(ErroEnum.BUSINESS_EXCEPTION.setMsg("请尽快激活邮箱"));
+                throw new BusinessException(ErrorEnum.BUSINESS_EXCEPTION.setMsg("请尽快激活邮箱"));
             }
         }
         if (user.getPassword().equals(rePassword)) {
-            throw new BusinessException(ErroEnum.USER_RE_PASSWORD_ERROR);
+            throw new BusinessException(ErrorEnum.USER_RE_PASSWORD_ERROR);
         }
         userMapper.insert(user);
 

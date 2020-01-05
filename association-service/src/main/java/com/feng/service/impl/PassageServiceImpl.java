@@ -9,7 +9,7 @@ import com.feng.dto.PassageTypeDto;
 import com.feng.dto.PassageFileDto;
 import com.feng.entity.Passage;
 import com.feng.entity.PassageType;
-import com.feng.enums.ErroEnum;
+import com.feng.enums.ErrorEnum;
 import com.feng.exception.BusinessException;
 import com.feng.service.PassageService;
 import com.feng.vo.PassagePageVo;
@@ -86,7 +86,7 @@ public class PassageServiceImpl implements PassageService {
     public PassageFileDto getInfoById(Integer id) {
         PassageFileDto passageFileDto = passageMapper.getInfoById(id);
         if (passageFileDto == null) {
-            throw new BusinessException(ErroEnum.BUSINESS_EXCEPTION.setMsg("文章不存在"));
+            throw new BusinessException(ErrorEnum.BUSINESS_EXCEPTION.setMsg("文章不存在"));
         }
         return passageFileDto;
     }

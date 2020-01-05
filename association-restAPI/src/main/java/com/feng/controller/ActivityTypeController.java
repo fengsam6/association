@@ -5,6 +5,7 @@ import com.feng.entity.ActivityType;
 import com.feng.entity.ResponseResult;
 import com.feng.service.ActivityTypeService;
 import com.feng.util.ResponseResultUtil;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +24,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/activityTypes")
+@Api(tags = "前台活动类型接口")
 public class ActivityTypeController {
     @Autowired
     private ActivityTypeService activityTypeService;

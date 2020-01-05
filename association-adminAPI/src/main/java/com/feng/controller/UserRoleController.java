@@ -1,13 +1,13 @@
 package com.feng.controller;
 
 
-import com.feng.entity.ClubType;
 import com.feng.entity.UserRole;
 import com.feng.entity.ResponseResult;
-import com.feng.enums.ErroEnum;
+import com.feng.enums.ErrorEnum;
 import com.feng.exception.ParamInvalidException;
 import com.feng.service.UserRoleService;
 import com.feng.util.ResponseResultUtil;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +28,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/userRoles")
 @Slf4j
+@Api(tags = "用户角色接口")
 public class UserRoleController {
     @Autowired
     private UserRoleService userRoleService;
@@ -51,7 +52,7 @@ public class UserRoleController {
         if (bindingResult.hasErrors()) {
             String msg = bindingResult.getFieldError().getDefaultMessage();
             log.error("{}", msg);
-            throw new ParamInvalidException(ErroEnum.INVALIDATE_PARAM_EXCEPTION.setMsg(msg));
+            throw new ParamInvalidException(ErrorEnum.INVALIDATE_PARAM_EXCEPTION.setMsg(msg));
         }
         userRoleService.updateById(userRole);
         return ResponseResultUtil.renderSuccess("更新用户角色类型成功");
@@ -70,7 +71,7 @@ public class UserRoleController {
         if (bindingResult.hasErrors()) {
             String msg = bindingResult.getFieldError().getDefaultMessage();
             log.error("{}", msg);
-            throw new ParamInvalidException(ErroEnum.INVALIDATE_PARAM_EXCEPTION.setMsg(msg));
+            throw new ParamInvalidException(ErrorEnum.INVALIDATE_PARAM_EXCEPTION.setMsg(msg));
         }
         userRoleService.insert(userRole);
         return ResponseResultUtil.renderSuccess("添加用户角色类型成功");

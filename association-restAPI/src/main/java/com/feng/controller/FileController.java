@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @CrossOrigin
 @RequestMapping("/files")
-@Api("文件管理系统前台文章接口")
+@Api(tags = "文件管理系统前台文章接口")
 public class FileController {
     @Autowired
 private FileService fileService;

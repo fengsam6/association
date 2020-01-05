@@ -11,9 +11,11 @@ public class ApplicationContextInfoUtils {
         Environment environment = applicationContext.getEnvironment();
         String port = environment.getProperty("server.port");
         String contextPath = environment.getProperty("server.servlet.context-path");
-        String visitUrl = "http://localhost:"+port+contextPath;
-        logger.info("欢迎使用club后台系统，本地访问url：{}",visitUrl);
-        logger.info("后端swagger接口文档url：{}",visitUrl+"/monitor/swagger");
+        String ip = "localhost";
+        String indexUrl = "http://"+ip+":"+port+contextPath;
+        logger.info("欢迎访问club后台系统，系统首页url：{}",indexUrl);
+        logger.info("后端swagger接口文档url：{}",indexUrl+"/swagger-ui.html");
+        logger.info("后端 druid 监控中心url：{},用户名 admin，密码 admin",indexUrl+"/druid");
 
     }
 }

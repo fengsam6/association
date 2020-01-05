@@ -26,7 +26,7 @@ import java.util.List;
 @RestController
 @CrossOrigin
 @RequestMapping("/clubs")
-@Api("社团管理系统前台社团接口")
+@Api(tags = "社团管理系统前台社团接口")
 public class ClubController {
     @Autowired
     private ClubService clubService;

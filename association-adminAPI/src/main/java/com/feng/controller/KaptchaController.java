@@ -5,12 +5,14 @@ import com.feng.service.RedisOperatorService;
 import com.feng.util.UUIDUtil;
 import com.google.code.kaptcha.Constants;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
+import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
@@ -26,6 +28,7 @@ import java.io.ByteArrayOutputStream;
 @CrossOrigin(allowCredentials = "true")
 @RequestMapping("/users")
 @Slf4j
+@ApiIgnore
 public class KaptchaController {
     /**
      * 1、验证码工具

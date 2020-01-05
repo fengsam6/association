@@ -7,15 +7,12 @@ import com.feng.dao.ClubMapper;
 import com.feng.dao.ClubTypeMapper;
 import com.feng.entity.Club;
 import com.feng.entity.ClubType;
-import com.feng.entity.Passage;
-import com.feng.entity.PassageType;
-import com.feng.enums.ErroEnum;
+import com.feng.enums.ErrorEnum;
 import com.feng.exception.BusinessException;
 import com.feng.service.ClubService;
 import com.feng.vo.ClubInfoVo;
 import com.feng.vo.ClubPageVo;
 import com.feng.vo.ClubVo;
-import com.feng.vo.PassagePageVo;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +21,6 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-import org.springframework.util.StringUtils;
 
 import java.io.Serializable;
 import java.util.List;
@@ -81,7 +77,7 @@ public class ClubServiceImpl extends ServiceImpl<ClubMapper, Club> implements Cl
     public Club getById(Serializable num) {
         Club club = clubMapper.selectById(num);
         if (club == null) {
-            throw new BusinessException(ErroEnum.BUSINESS_EXCEPTION.setMsg("社团不存在"));
+            throw new BusinessException(ErrorEnum.BUSINESS_EXCEPTION.setMsg("社团不存在"));
         }
         return club;
     }

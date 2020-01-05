@@ -1,6 +1,11 @@
 package com.feng.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
+import com.feng.entity.ResponseResult;
+import com.feng.enums.ErrorEnum;
+import com.feng.util.ResponseResultUtil;
+import io.swagger.annotations.Api;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -9,10 +14,12 @@ import java.io.*;
 /**
  * Created by rf on 2019/5/5.
  */
+@RestController
+@Api(tags = "系统前台文件下载接口")
 public class FileDownLoadController {
-    @RequestMapping("/download")
-    public String downloadFile(HttpServletRequest request,
-                               HttpServletResponse response,String fileName,String relativePath) throws UnsupportedEncodingException {
+    @GetMapping("/download")
+    public ResponseResult downloadFile(HttpServletRequest request,
+                                       HttpServletResponse response, String fileName, String relativePath) throws UnsupportedEncodingException {
         if (fileName != null) {
             File file = new File(relativePath, fileName);
             if (file.exists()) {
@@ -32,9 +39,9 @@ public class FileDownLoadController {
                         os.write(buffer, 0, i);
                         i = bis.read(buffer);
                     }
-                    System.out.println("下载成功");
                 } catch (Exception e) {
                     e.printStackTrace();
+                    return ResponseResultUtil.renderError(ErrorEnum.DOWNLOAD_FILE_FAIL);
                 } finally {
                     if (bis != null) {
                         try {
@@ -53,6 +60,6 @@ public class FileDownLoadController {
                 }
             }
         }
-        return null;
+        return ResponseResultUtil.renderSuccess("下载文件成功");
     }
 }

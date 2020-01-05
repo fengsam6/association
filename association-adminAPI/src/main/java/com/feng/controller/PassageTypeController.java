@@ -2,16 +2,14 @@ package com.feng.controller;
 
 
 import com.feng.entity.PassageType;
-import com.feng.entity.PassageType;
-import com.feng.entity.PassageType;
 import com.feng.entity.ResponseResult;
-import com.feng.enums.ErroEnum;
+import com.feng.enums.ErrorEnum;
 import com.feng.exception.ParamInvalidException;
 import com.feng.service.PassageTypeService;
 import com.feng.util.ResponseResultUtil;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +26,7 @@ import java.util.List;
  */
 @RequestMapping("/passageTypes")
 @RestController
+@Api(value = "社团管理系统后台文章类型接口",tags = "社团管理系统后台文章类型接口")
 public class PassageTypeController {
     @Autowired
     private PassageTypeService passageTypeService;
@@ -50,7 +49,7 @@ public class PassageTypeController {
     public ResponseResult edit(@Valid @RequestBody PassageType passageType, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             String msg = bindingResult.getFieldError().getDefaultMessage();
-            throw new ParamInvalidException(ErroEnum.INVALIDATE_PARAM_EXCEPTION.setMsg(msg));
+            throw new ParamInvalidException(ErrorEnum.INVALIDATE_PARAM_EXCEPTION.setMsg(msg));
         }
         passageTypeService.updateById(passageType);
         return ResponseResultUtil.renderSuccess("更新成功");
@@ -68,7 +67,7 @@ public class PassageTypeController {
     public ResponseResult add(@Valid @RequestBody PassageType passageType, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             String msg = bindingResult.getFieldError().getDefaultMessage();
-            throw new ParamInvalidException(ErroEnum.INVALIDATE_PARAM_EXCEPTION.setMsg(msg));
+            throw new ParamInvalidException(ErrorEnum.INVALIDATE_PARAM_EXCEPTION.setMsg(msg));
         }
         passageTypeService.insert(passageType);
         return ResponseResultUtil.renderSuccess("添加新闻类型成功");

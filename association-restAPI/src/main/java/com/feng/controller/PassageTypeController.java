@@ -7,6 +7,7 @@ import com.feng.entity.ResponseResult;
 import com.feng.service.PassageTypeService;
 import com.feng.util.ResponseResultUtil;
 import com.github.pagehelper.PageInfo;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +27,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/passageTypes")
+@Api(tags = "社团管理系统前台文章类型接口")
 public class PassageTypeController {
     @Autowired
     private PassageTypeService passageTypeService;

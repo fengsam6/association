@@ -4,10 +4,11 @@ package com.feng.controller;
 import com.feng.email.MailService;
 import com.feng.entity.ResponseResult;
 import com.feng.entity.User;
-import com.feng.enums.ErroEnum;
+import com.feng.enums.ErrorEnum;
 import com.feng.exception.ParamInvalidException;
 import com.feng.service.UserService;
 import com.feng.util.ResponseResultUtil;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,7 @@ import javax.validation.Valid;
 @RestController
 @Slf4j
 @RequestMapping("/users")
+@Api(tags = "前台用户接口")
 public class UserController {
     @Autowired
     private UserService userService;
@@ -52,7 +54,7 @@ public class UserController {
     public ResponseResult register(@Valid @RequestBody User user, String rePassword, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             String msg = bindingResult.getFieldError().getDefaultMessage();
-            throw new ParamInvalidException(ErroEnum.INVALIDATE_PARAM_EXCEPTION.setMsg(msg));
+            throw new ParamInvalidException(ErrorEnum.INVALIDATE_PARAM_EXCEPTION.setMsg(msg));
         }
         userService.register(user, rePassword);
         sendActiveMail(user);

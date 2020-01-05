@@ -1,11 +1,12 @@
 package com.feng.interceptor;
 
-import com.feng.enums.ErroEnum;
+import com.feng.enums.ErrorEnum;
 import com.feng.exception.AuthenticationFailException;
 import com.feng.service.UserSessionService;
 import com.feng.util.UserTokenUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -24,9 +25,13 @@ public class LoginInterceptor implements HandlerInterceptor {
 
     @Autowired
     private UserSessionService userSessionService;
+    @Value("${system.openDevEnv}")
+    private boolean isOpenTestDev = false;
 
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-
+        //如果开启测试环境，所有请求放行
+        if (isOpenTestDev)
+            return true;
         String token = UserTokenUtils.getUserToken(request);
 
         if (!StringUtils.isEmpty(token)) {
@@ -38,7 +43,7 @@ public class LoginInterceptor implements HandlerInterceptor {
             }
         }
 
-        throw new AuthenticationFailException(ErroEnum.USER_NOT_LOGIN);
+        throw new AuthenticationFailException(ErrorEnum.USER_NOT_LOGIN);
 
     }
 
