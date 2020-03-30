@@ -1,0 +1,1 @@
+nginx 配置文件。部署时候使用，当前端使用npm run build,nginx配置文件，请使用这个

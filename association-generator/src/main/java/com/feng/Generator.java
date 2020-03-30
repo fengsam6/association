@@ -18,9 +18,9 @@ public class Generator {
         //user -> UserService, 设置成true: user -> IUserService
         boolean serviceNameStartWithI = false;
         //指定生成的表名
-        String[] tableNames = new String[]{"user", "user_role", "user_rank","passage",
-                "passage_type","activity","one_column","file","club","club_type",
-                "student","activity_type","file_type"};
+        String[] tableNames = new String[]{"user", "user_role", "user_rank", "passage",
+                "passage_type", "activity", "one_column", "file", "club", "club_type",
+                "student", "activity_type", "file_type"};
         Generator generator = new Generator();
         generator.generateByTables(serviceNameStartWithI, packageName, tableNames);
     }
@@ -89,7 +89,7 @@ public class Generator {
      * @author Terry
      */
     private GlobalConfig getGlobalConfig(boolean serviceNameStartWithI) {
-        String save_projectName="association-generator";
+        String save_projectName = "association-generator";
         GlobalConfig globalConfig = new GlobalConfig();
         globalConfig
                 .setBaseColumnList(true)

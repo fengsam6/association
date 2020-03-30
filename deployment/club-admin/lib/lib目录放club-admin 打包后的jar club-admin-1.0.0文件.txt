@@ -1,1 +1,1 @@
-lib目录放club-admin 打包后的jar club-admin-1.0.0文件.txt
+lib目录放club-admin 打包后的jar club-admin-1.0.0.jar 文件
